@@ -1,5 +1,14 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [
+    "tslint:recommended",
+    "tslint-sonarts",
+    "tslint-angular"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "*.json"
+    ]
+  },
   "rules": {
     "align": {
       "options": [

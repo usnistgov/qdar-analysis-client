@@ -1,0 +1,53 @@
+<div class="side-bar">
+  <div class="buttons">
+    <dam-side-bar-toggle></dam-side-bar-toggle>
+    <button class="btn btn-sm btn-primary" (click)="createConfiguration()">
+      <i class="fa fa-plus"></i>
+      Create Configuration
+    </button>
+  </div>
+  <div class="filter">
+    <div class="input-group" style="margin-left: 5px; min-width: 300px;">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-filter"></i></span>
+      </div>
+      <input type="text" class="form-control" placeholder="filter" aria-label="filter" (input)="filter($event.target.value)">
+    </div>
+  </div>
+  <div class="list">
+    <ul class="list-group">
+      <li
+        *ngFor="let configuration of filtered"
+        [routerLink]="configuration.id"
+        routerLinkActive="active"
+        #rla="routerLinkActive"
+        class="list-group-item cursor-pointer"
+        [contextMenu]="cm"
+        [contextMenuSubject]="configuration"
+      >
+
+        <span><i class="fa fa-user" style="color: blue; margin-right: 3px;" *ngIf="configuration.owned && !configuration.published"></i></span>
+        <span *ngIf="configuration.published" class="badge badge-warning">
+          <i class="fa fa-globe" style="color: brown; margin-right: 3px;" ></i>
+          <i class="fa fa-user" style="color: blue; margin-right: 3px;"></i>
+          {{configuration.owner}}
+        </span>
+          {{ configuration.name }}
+        <span><i class="fa fa-lock" style="color: red; margin-right: 3px;"*ngIf="configuration.owned && configuration.locked"></i></span>
+
+        <context-menu #cm>
+          <ng-template contextMenuItem let-configuration (execute)="cloneConfiguration($event.item)" [enabled]="!rla.isActive || (rla.isActive && !(widget.containsUnsavedChanges$() | async))">
+            <i class="fa fa-files-o"></i>
+            Clone Configuration
+          </ng-template>
+          <ng-template contextMenuItem divider="true" *ngIf="configuration.owned"></ng-template>
+          <ng-template contextMenuItem let-configuration (execute)="deleteConfiguration($event.item, rla.isActive)" *ngIf="configuration.owned" [enabled]="!rla.isActive || (rla.isActive && !(widget.containsUnsavedChanges$() | async))">
+            <i class="fa fa-trash"></i>
+            Delete Configuration
+          </ng-template>
+        </context-menu>
+      </li>
+    </ul>
+  </div>
+</div>
+

@@ -1,1 +1,122 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "./assets/variables";
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  @extend %blue-bg;
+  height: 100%;
+  width: 100%;
+  font-family: Verdana, Geneva, sans-serif !important;
+}
+
+.nav-title {
+  background-color: $nist_light_yellow;
+  justify-content: start !important;
+}
+
+.nav-links {
+  background-color: $nist_dark_yellow;
+  padding: 0px 0px 0px 0px !important;
+  justify-content: space-between !important;
+  -webkit-box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 3px 5px -2px rgba(0, 0, 0, 0.75) !important;
+}
+
+.toolbar-name {
+  font-weight: 400;
+  margin-left: 20px;
+  font-size: 25px;
+  color: #000!important;
+  bottom: 0;
+  padding: 0;
+}
+
+.title-text {
+  margin-bottom: 0; margin-left: 5px;
+}
+
+.toolname-abbrv {
+  font-weight: 500;
+  font-size: 20px;
+  color: #ff6f6f;
+}
+
+li {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+
+li a {
+  color: $nist_dark_blue !important;
+}
+
+.nav-item:hover {
+  background-color: $nist_light_yellow !important;
+  cursor: pointer !important;
+}
+
+.navbar-nav  .active {
+  background-color: $nist_light_yellow !important;
+  color: $nist_dark_blue !important;
+}
+
+.list-group .active {
+  border: 1px solid #e9ecef !important;
+  background-color: $nist_light_yellow !important;
+  color: $nist_dark_blue !important;
+}
+
+.active-dropdown {
+  background-color: $nist_light_yellow !important;
+  color: black !important;
+}
+
+dam-side-bar-toggle button {
+  border: 1px solid #ced4da !important;
+  background-color: #e9ecef !important;
+}
+
+dam-fullscreen-button button {
+  margin-left: 0px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  background-color: #e9ecef;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-bottom: 2px solid rgb(114, 196, 118); /* green */
+}
+
+.ng-invalid:not(form)  {
+  background-color: rgb(255, 221, 226);
+  border-bottom: 2px solid #d6403d; /* red */
+}
+
+.ngx-contextmenu .disabled {
+  cursor: not-allowed !important;
+}
+
+.ngx-contextmenu .disabled a {
+  cursor: not-allowed !important;
+  color: gray !important;
+}
+
+.ngx-contextmenu .disabled a:hover {
+  text-decoration: none !important;
+}
+
+.ui-calendar {
+  width: 100% !important;
+}
