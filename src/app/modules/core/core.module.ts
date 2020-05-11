@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { DamAuthenticationModule, DamMessagesModule } from 'ngx-dam-framework';
 import { CardModule } from 'primeng/card';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HomeComponent, ErrorPageComponent],
@@ -15,6 +16,7 @@ import { CardModule } from 'primeng/card';
     CoreRoutingModule,
     DamAuthenticationModule,
     DamMessagesModule,
+    NgbModule,
     CardModule,
   ],
   exports: [HeaderComponent, FooterComponent, HomeComponent, ErrorPageComponent],

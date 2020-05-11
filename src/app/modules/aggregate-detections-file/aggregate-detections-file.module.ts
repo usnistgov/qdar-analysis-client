@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AggregateDetectionsFileRoutingModule } from './aggregate-detections-file-routing.module';
+import { AdfDashboardComponent } from './components/adf-dashboard/adf-dashboard.component';
+import { AdfUploadComponent } from './components/adf-upload/adf-upload.component';
+import { SharedModule } from '../shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { CoreEffects } from './store/core.effects';
+import { AdfListComponent } from './components/adf-list/adf-list.component';
+import { JobListComponent } from './components/job-list/job-list.component';
+import { AdfSummaryComponent } from './components/adf-summary/adf-summary.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [AdfDashboardComponent, AdfUploadComponent, AdfListComponent, JobListComponent, AdfSummaryComponent],
   imports: [
     CommonModule,
-    AggregateDetectionsFileRoutingModule
+    AggregateDetectionsFileRoutingModule,
+    SharedModule,
+    EffectsModule.forFeature([CoreEffects]),
   ]
 })
 export class AggregateDetectionsFileModule { }

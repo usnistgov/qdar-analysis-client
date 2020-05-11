@@ -2,20 +2,16 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IConfigurationDescriptor, IDigestConfiguration } from '../../model/configuration.model';
 import { ConfigurationService } from '../../services/configuration.service';
 import {
-  MessageService,
   ConfirmDialogComponent,
-  Message,
   MessageType,
   DeleteResourcesFromRepository,
-  TurnOffLoader,
-  TurnOnLoader,
   InsertResourcesInCollection,
-  EditorUpdate,
+  RxjsStoreHelperService,
 } from 'ngx-dam-framework';
 import { MatDialog } from '@angular/material/dialog';
-import { flatMap, concatMap, tap, catchError, toArray } from 'rxjs/operators';
-import { Action, Store } from '@ngrx/store';
-import { of, Observable } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 import { GoToEntity } from '../../../shared/store/core.actions';
 import { EntityType } from 'src/app/modules/shared/model/entity.model';
 import { DamWidgetComponent } from 'ngx-dam-framework';
@@ -44,7 +40,7 @@ export class ConfigurationSideBarComponent implements OnInit {
   constructor(
     public widget: DamWidgetComponent,
     private configurationService: ConfigurationService,
-    private messageService: MessageService,
+    private helper: RxjsStoreHelperService,
     private dialog: MatDialog,
     private store: Store<any>,
   ) {
@@ -56,36 +52,6 @@ export class ConfigurationSideBarComponent implements OnInit {
     this.filtered = this.configurations.filter((conf) => {
       return conf.name.includes(text);
     });
-  }
-
-  executeContextMenuAction(
-    call: (configuration: IConfigurationDescriptor) => Observable<Message<IDigestConfiguration>>,
-    handler: (message: Message<IDigestConfiguration>) => Action[],
-    configuration: IConfigurationDescriptor,
-  ): Observable<Action> {
-    this.store.dispatch(new TurnOnLoader({
-      blockUI: true,
-    }));
-
-    return call(configuration).pipe(
-      flatMap((message) => {
-        return [
-          ...handler(message),
-          this.messageService.messageToAction(message),
-        ];
-      }),
-      catchError((error) => {
-        return of(this.messageService.actionFromError(error));
-      }),
-      toArray(),
-      flatMap((actions) => {
-        return [
-          ...actions,
-          new TurnOffLoader(),
-        ];
-      }),
-      tap((action) => this.store.dispatch(action)),
-    );
   }
 
   // tslint:disable-next-line: cognitive-complexity
@@ -102,9 +68,10 @@ export class ConfigurationSideBarComponent implements OnInit {
     }).afterClosed().pipe(
       concatMap((answer) => {
         if (answer) {
-          return this.executeContextMenuAction(
-            (conf) => {
-              return this.configurationService.delete(conf.id);
+          return this.helper.getMessageAndHandle<IDigestConfiguration>(
+            this.store,
+            () => {
+              return this.configurationService.delete(configuration.id);
             },
             (message) => {
               return message.status === MessageType.SUCCESS ? [new DeleteResourcesFromRepository({
@@ -119,8 +86,7 @@ export class ConfigurationSideBarComponent implements OnInit {
                 }),
               ] : [])
               ] : [];
-            },
-            configuration,
+            }
           );
         }
         return of();
@@ -142,22 +108,22 @@ export class ConfigurationSideBarComponent implements OnInit {
   }
 
   cloneConfiguration(configuration: IConfigurationDescriptor) {
-    return this.executeContextMenuAction(
-      (conf) => {
-        return this.configurationService.clone(conf.id);
+    return this.helper.getMessageAndHandle<IDigestConfiguration>(
+      this.store,
+      () => {
+        return this.configurationService.clone(configuration.id);
       },
       this.addAndOpenHandler,
-      configuration,
     ).subscribe();
   }
 
   createConfiguration() {
-    return this.executeContextMenuAction(
-      (conf) => {
+    return this.helper.getMessageAndHandle<IDigestConfiguration>(
+      this.store,
+      () => {
         return this.configurationService.save(this.configurationService.getEmptyConfiguration());
       },
       this.addAndOpenHandler,
-      undefined,
     ).subscribe();
   }
 

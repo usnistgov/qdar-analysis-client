@@ -13,9 +13,23 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreEffects } from './store/core.effects';
 import { EditorModule } from 'primeng/editor';
 import { CalendarModule } from 'primeng/calendar';
+import { DamMessagesModule } from 'ngx-dam-framework';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadFieldComponent } from './components/file-upload-field/file-upload-field.component';
+import { FileDropDirective } from './directives/file-drop.directive';
+import { DescriptorDisplayComponent } from './components/descriptor-display/configuration-display.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AgeGroupsComponent, AgeBracketComponent, DetectionsListComponent, DetectionsPickerComponent],
+  declarations: [
+    AgeGroupsComponent,
+    AgeBracketComponent,
+    DetectionsListComponent,
+    DetectionsPickerComponent,
+    FileUploadFieldComponent,
+    FileDropDirective,
+    DescriptorDisplayComponent
+  ],
   imports: [
     CommonModule,
     StoreModule,
@@ -27,6 +41,9 @@ import { CalendarModule } from 'primeng/calendar';
     EffectsModule.forFeature([CoreEffects]),
     EditorModule,
     CalendarModule,
+    DamMessagesModule,
+    DropdownModule,
+    NgbModule,
   ],
   exports: [
     // Modules,
@@ -38,11 +55,17 @@ import { CalendarModule } from 'primeng/calendar';
     ContextMenuModule,
     EditorModule,
     CalendarModule,
+    DamMessagesModule,
+    DropdownModule,
+    NgbModule,
 
     // Components,
     AgeGroupsComponent,
     DetectionsListComponent,
     DetectionsPickerComponent,
+    FileUploadFieldComponent,
+    FileDropDirective,
+    DescriptorDisplayComponent,
   ]
 })
 export class SharedModule { }

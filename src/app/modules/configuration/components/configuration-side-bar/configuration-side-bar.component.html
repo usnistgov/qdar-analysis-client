@@ -23,17 +23,9 @@
         #rla="routerLinkActive"
         class="list-group-item cursor-pointer"
         [contextMenu]="cm"
-        [contextMenuSubject]="configuration"
-      >
+        [contextMenuSubject]="configuration">
 
-        <span><i class="fa fa-user" style="color: blue; margin-right: 3px;" *ngIf="configuration.owned && !configuration.published"></i></span>
-        <span *ngIf="configuration.published" class="badge badge-warning">
-          <i class="fa fa-globe" style="color: brown; margin-right: 3px;" ></i>
-          <i class="fa fa-user" style="color: blue; margin-right: 3px;"></i>
-          {{configuration.owner}}
-        </span>
-          {{ configuration.name }}
-        <span><i class="fa fa-lock" style="color: red; margin-right: 3px;"*ngIf="configuration.owned && configuration.locked"></i></span>
+        <app-descriptor-display [descriptor]="configuration"></app-descriptor-display>
 
         <context-menu #cm>
           <ng-template contextMenuItem let-configuration (execute)="cloneConfiguration($event.item)" [enabled]="!rla.isActive || (rla.isActive && !(widget.containsUnsavedChanges$() | async))">

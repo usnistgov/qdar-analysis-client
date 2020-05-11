@@ -1,0 +1,26 @@
+<div class="page-container">
+  <div class="page-alerts">
+    <dam-alerts-container></dam-alerts-container>
+  </div>
+  <div class="page-title dash-page-title">
+    <h4 class="title-text"><i class="fa fa-database" style="color: crimson;"></i> Dashboard </h4>
+  </div>
+
+  <div class="page-content dash-page-content">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="files" routerLinkActive="active" >
+          <h5 class="title-text"><i class="fa fa-file-text-o" style="color:crimson; margin-right: 5px;"></i> Aggregate Detections Files</h5>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="jobs" routerLinkActive="active">
+          <h5 class="title-text"><i class="fa fa-area-chart" style="color:crimson; margin-right: 5px;"></i> Analysis Jobs</h5>
+        </a>
+      </li>
+    </ul>
+
+    <div style="flex-grow: 1;">
+      <router-outlet></router-outlet>
+    </div>
+</div>

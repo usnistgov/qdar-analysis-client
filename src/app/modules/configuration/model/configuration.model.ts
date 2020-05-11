@@ -1,17 +1,10 @@
 import { IRange } from '../../shared/model/age-group.model';
 import { IDamResource } from 'ngx-dam-framework';
 import { EntityType } from '../../shared/model/entity.model';
+import { IDescriptor } from '../../shared/model/descriptor.model';
 
-export interface IConfigurationDescriptor extends IDamResource {
-  id: string;
+export interface IConfigurationDescriptor extends IDescriptor, IDamResource {
   type: EntityType.CONFIGURATION;
-  name: string;
-  owner: string;
-  lastUpdated: Date;
-  viewOnly: boolean;
-  locked: boolean;
-  owned: boolean;
-  published: boolean;
 }
 
 export interface IDigestConfiguration extends IConfigurationDescriptor {

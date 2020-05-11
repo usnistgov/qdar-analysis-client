@@ -10,10 +10,18 @@
     <li class="nav-item" routerLink="home" routerLinkActive="active">
       <a class="nav-link">Home</a>
     </li>
-    <li class="nav-item" routerLink="files" routerLinkActive="active">
-      <a class="nav-link">My Extract Files</a>
+    <li class="nav-item" [ngClass]="{'active': isAdf | async }" ngbDropdown>
+      <a class="nav-link"  routerLink="/adf"  ngbDropdownToggle>Data</a>
+        <div ngbDropdownMenu>
+          <button [routerLink]="['/', 'adf', 'dashboard']" ngbDropdownItem routerLinkActive="active-dropdown">
+            Dashboard
+          </button>
+          <button [routerLink]="['/', 'adf', 'upload']" ngbDropdownItem routerLinkActive="active-dropdown">
+            Upload File
+          </button>
+        </div>
     </li>
-    <li class="nav-item" routerLink="configuration" routerLinkActive="active">
+    <li class="nav-item" routerLink="configurations" routerLinkActive="active">
       <a class="nav-link">Configurations</a>
     </li>
     <li class="nav-item" routerLink="report-templates" routerLinkActive="active">

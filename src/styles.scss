@@ -13,6 +13,38 @@ body {
   font-family: Verdana, Geneva, sans-serif !important;
 }
 
+body .ui-table-dash .ui-table-thead > tr > th {
+  padding: .25em .5em !important;
+  border-top: 1px solid #dee2e6 !important;
+  border-bottom: 2px solid #dee2e6 !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  font-weight: 700 !important;
+  color: #333333 !important;
+  background-color: white !important;
+  text-align: center;
+
+}
+
+body .ui-table-dash .ui-sortable-column.ui-state-highlight {
+  background-color: $nist_dark_yellow !important;
+}
+
+body .ui-table-dash .ui-sortable-column.ui-state-highlight .ui-sortable-column-icon {
+  color:black !important;
+}
+
+body .ui-table-dash .ui-table-tbody > tr > td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+}
+
+body .ui-table-dash .ui-paginator {
+  border: 0 !important;
+  background-color: white !important;
+}
+
 .nav-title {
   background-color: $nist_light_yellow;
   justify-content: start !important;
@@ -60,6 +92,11 @@ li a {
 .nav-item:hover {
   background-color: $nist_light_yellow !important;
   cursor: pointer !important;
+}
+
+.nav-pills  .active {
+  background-color: $nist_light_yellow !important;
+  color: $nist_dark_blue !important;
 }
 
 .navbar-nav  .active {
@@ -119,4 +156,51 @@ dam-fullscreen-button button {
 
 .ui-calendar {
   width: 100% !important;
+}
+
+.title-heading {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  float: none;
+}
+
+.ui-table-scrollable-body {
+  border-bottom: 1px solid #c8c8c8 !important;
+}
+
+//------
+.page-container {
+  background-color: white;
+  width: 100%;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: [page-content] 1fr;
+  grid-template-rows: [alerts] minmax(min-content,max-content) [row-titlebar] minmax(min-content, 45px) [row-content] auto;
+  overflow: hidden;
+  color: #444;
+  height: 100%;
+  background-color: #d6d6d6e3;
+  border-bottom: 1px solid #d6d6d6e3;
+}
+
+.page-container .page-alerts {
+  grid-column: page-content;
+  grid-row: alerts;
+  background-color: white;
+}
+
+
+.page-container .page-title {
+  grid-column: page-content;
+  grid-row: row-titlebar;
+  padding: 5px;
+  background-color: white;
+  display: flex;
+}
+
+.page-container .page-content {
+  grid-column: page-content;
+  grid-row: row-content;
+  overflow: hidden;
 }

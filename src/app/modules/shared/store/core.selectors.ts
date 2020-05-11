@@ -14,7 +14,7 @@ export const selectAllDetections = createSelector(
   selectDetectionsRepo,
   detectionsSelectors.selectAll,
 );
-export const selectConfigurationById = createSelector(
+export const selectDetectionById = createSelector(
   selectDetectionsEntities,
   (dict: Dictionary<IDetectionResource>, props: any): IDetectionResource => {
     if (dict[props.id]) {

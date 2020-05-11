@@ -18,7 +18,7 @@ export class CoreEffects {
       // tslint:disable-next-line: no-small-switch
       switch (action.payload.type) {
         case EntityType.CONFIGURATION:
-          this.router.navigate(['/', 'configuration', ...action.payload.id ? [action.payload.id] : []]);
+          this.router.navigate(['/', 'configurations', ...action.payload.id ? [action.payload.id] : []]);
           return of();
 
         default:

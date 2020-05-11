@@ -1,0 +1,83 @@
+<div style="display: flex; justify-content: flex-end; margin-top : 10px; margin-bottom : 10px;">
+  <button class="btn btn-sm btn-secondary" [routerLink]="[ '/', 'adf', 'upload' ]">
+    <i class="fa fa-upload"></i>
+    Upload File
+  </button>
+</div>
+
+<p-table
+  [value]="files$ | async"
+  [paginator]="true"
+  [rows]="10"
+  class="ui-table-dash"
+  sortMode="multiple"
+  [styleClass]="'table table-sm table-striped'">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="vertical-align: middle;" pSortableColumn="name">
+        Name
+        <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th style="vertical-align: middle; width: 150px;" pSortableColumn="uploadedOn">
+        Uploaded On
+        <p-sortIcon field="uploadedOn"></p-sortIcon>
+      </th>
+      <th style="vertical-align: middle; width: 150px;" pSortableColumn="analysedOn">
+        Analysed On
+        <p-sortIcon field="analysedOn"></p-sortIcon>
+      </th>
+      <th style="vertical-align: middle; width: 200px;">
+        Age
+      </th>
+      <th style="vertical-align: middle; width: 100px;">
+        Size
+      </th>
+      <th style="vertical-align: middle;">Compatible With</th>
+      <th style="vertical-align: middle; width: 300px;">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td>
+        <i class="fa fa-file" style="color: crimson; margin-right: 10px;"></i>
+        <strong>{{ rowData.name }}</strong>
+      </td>
+      <td>{{ rowData.uploadedOn | date:'MM-dd-yyyy HH:mm' }}</td>
+      <td>{{ rowData.analysedOn | date:'MM-dd-yyyy HH:mm'  }}</td>
+      <td>{{ age(rowData.analysedOn) }}</td>
+      <td>
+        {{rowData.size }}
+      </td>
+      <td>
+        <ng-container *ngFor="let conf of rowData.compatibilities || []">
+          <div class="badge cursor-pointer" style="background-color: rgb(235, 235, 235); font-size: initial; margin-top: 2px;" [routerLink]="['/', 'configurations', conf.id ]">
+            <i class="fa fa-cog" style="color: blueviolet; margin-right: 5px;"></i>
+            <app-descriptor-display [descriptor]="conf"></app-descriptor-display>
+          </div>
+        </ng-container>
+        <div *ngIf="!rowData.compatibilities || rowData.compatibilities.length === 0 " class="badge" style="background-color: rgb(235, 235, 235); font-size: initial; margin-top: 2px;" >
+          <i class="fa fa-cog" style="color: blueviolet; margin-right: 5px;"></i>
+          Custom
+        </div>
+      </td>
+      <td>
+        <div style="width: 100%; height: 100%; display: flex; justify-content: flex-end;">
+          <button class="btn btn-sm btn-dark" style="margin-right: 5px;"
+            [routerLink]="['/', 'adf', rowData.id, 'summary']"
+          >
+            <i class="fa fa-file"></i>
+            Summary
+          </button>
+          <button class="btn btn-sm btn-primary"  style="margin-right: 5px;">
+            <i class="fa fa-bar-chart"></i>
+            Analyse
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="remove(rowData)">
+            <i class="fa fa-trash"></i>
+            Delete
+          </button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

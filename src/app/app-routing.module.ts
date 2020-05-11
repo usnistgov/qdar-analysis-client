@@ -20,8 +20,22 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'configuration',
-    loadChildren: () => import('./modules/configuration/configuration.module').then(m => m.ConfigurationModule),
+    path: 'configurations',
+    loadChildren: () => import('./modules/configuration/configuration.module').then(
+      m => m.ConfigurationModule
+    ),
+  },
+  {
+    path: 'adf',
+    loadChildren: () => import('./modules/aggregate-detections-file/aggregate-detections-file.module').then(
+      m => m.AggregateDetectionsFileModule
+    ),
+  },
+  {
+    path: 'report-templates',
+    loadChildren: () => import('./modules/report-template/report-template.module').then(
+      m => m.ReportTemplateModule
+    ),
   },
   {
     path: 'error',

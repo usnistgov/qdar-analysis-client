@@ -1,0 +1,47 @@
+<div style="margin-top : 51px;" class="ui-table-dash">
+  <p-table
+  [value]="filesFlat"
+  [paginator]="true"
+  [rows]="20"
+  [tableStyleClass]="'table table-sm table-striped'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="vertical-align: middle;" pSortableColumn="name">
+          Name
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th style="vertical-align: middle;" pSortableColumn="file">
+          File
+          <p-sortIcon field="file"></p-sortIcon>
+        </th>
+        <th style="vertical-align: middle; width: 150px;" pSortableColumn="analysedOn">
+          Started On
+          <p-sortIcon field="analysedOn"></p-sortIcon>
+        </th>
+        <th style="vertical-align: middle; width: 200px;">
+          Progress
+        </th>
+        <th style="vertical-align: middle; width: 100px;">
+          Template
+        </th>
+        <th style="vertical-align: middle; width: 300px;">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <i class="fa fa-pie-chart" style="color: darkgreen; margin-right: 10px;"></i>
+          {{rowData.name}}
+        </td>
+        <td>
+          <i class="fa fa-file" style="color: crimson; margin-right: 10px;"></i>
+          {{rowData.file}}
+        </td>
+        <td>{{rowData.startedOn | date:'MM-dd-yyyy HH:mm' }}</td>
+        <td>{{rowData.progress}}</td>
+        <td>{{rowData.template}}</td>
+        <td></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

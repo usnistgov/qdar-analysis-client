@@ -1,5 +1,7 @@
 export enum EntityType {
   DETECTION = 'DETECTION',
   CVX = 'CVX',
+  ADF = 'ADF',
   CONFIGURATION = 'CONFIGURATION',
+  TEMPLATE = 'TEMPLATE',
 }
