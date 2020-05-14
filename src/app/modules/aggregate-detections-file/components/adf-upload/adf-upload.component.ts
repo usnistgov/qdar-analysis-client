@@ -50,7 +50,6 @@ export class AdfUploadComponent implements OnInit {
   }
 
   setFile(file: File) {
-    console.log(file);
     this.file = file;
   }
 

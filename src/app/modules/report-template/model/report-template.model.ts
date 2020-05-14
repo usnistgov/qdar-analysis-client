@@ -1,16 +1,38 @@
 import { EntityType } from '../../shared/model/entity.model';
 import { AnalysisType, Field } from './analysis.values';
 import { IDescriptor } from '../../shared/model/descriptor.model';
+import { IConfigurationPayload, IConfigurationDescriptor } from '../../configuration/model/configuration.model';
+import { IDamResource } from 'ngx-dam-framework';
+
 
 export interface IReportTemplateDescriptor extends IDescriptor {
   type: EntityType.TEMPLATE;
+  compatibilities: IConfigurationDescriptor[];
 }
 
-export interface IReportTemplate extends IReportTemplateDescriptor {
+export interface IReportTemplateCreate {
+  name: string;
+  configurationId: string;
+}
+
+export interface IReportTemplate {
+  id: string;
+  name: string;
+  description: string;
+  owner: string;
+  lastUpdated: Date;
+  published: boolean;
+  type: EntityType.TEMPLATE;
+  viewOnly: boolean;
   sections: IReportSection[];
+  configuration: IConfigurationPayload;
 }
 
-export interface IReportSection {
+export interface IReportSection extends IDamResource {
+  id: string;
+  type: EntityType.SECTION;
+  path: string;
+  position: number;
   header: string;
   text: string;
   data?: IDataViewQuery[];

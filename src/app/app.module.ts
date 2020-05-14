@@ -20,6 +20,7 @@ import {
 } from 'ngx-dam-framework';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContextMenuModule } from 'ngx-contextmenu';
+import { TreeModule } from 'angular-tree-component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ContextMenuModule } from 'ngx-contextmenu';
     DamLoaderModule,
     DamFrameworkModule.forRoot(),
     DamMessagesModule.forRoot(),
+    TreeModule.forRoot(),
     DamAuthenticationModule.forRootUsingUrl({
       api: {
         login: 'api/login',

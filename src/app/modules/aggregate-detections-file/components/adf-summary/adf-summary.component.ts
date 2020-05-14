@@ -45,10 +45,6 @@ export class AdfSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(selectOpenFileMetadata).pipe(
-      take(1),
-      tap((x) => console.log(x)),
-    ).subscribe();
   }
 
 }

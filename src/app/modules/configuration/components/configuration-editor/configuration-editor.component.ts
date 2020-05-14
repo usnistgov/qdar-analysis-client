@@ -57,7 +57,6 @@ export class ConfigurationEditorComponent extends DamAbstractEditorComponent imp
     super(CONFIGURATION_EDITOR_MD, actions$, store);
     this.wSub = this.currentSynchronized$.pipe(
       map((configuration: IDigestConfiguration) => {
-        console.log(configuration);
         this.isLocked = configuration.locked;
         this.isPublished = configuration.published;
         this.viewOnly = configuration.viewOnly;
@@ -78,9 +77,7 @@ export class ConfigurationEditorComponent extends DamAbstractEditorComponent imp
         ).subscribe();
       }),
     ).subscribe();
-    this.isAdmin$ = this.store.select(selectIsAdmin).pipe(
-      tap(x => console.log(x)),
-    );
+    this.isAdmin$ = this.store.select(selectIsAdmin);
     this.detections = this.store.select(selectAllDetections);
   }
 

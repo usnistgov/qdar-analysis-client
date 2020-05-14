@@ -9,12 +9,13 @@ import {
   RxjsStoreHelperService,
 } from 'ngx-dam-framework';
 import { MatDialog } from '@angular/material/dialog';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { GoToEntity } from '../../../shared/store/core.actions';
 import { EntityType } from 'src/app/modules/shared/model/entity.model';
 import { DamWidgetComponent } from 'ngx-dam-framework';
+import { FilterType, filterDescriptorByType } from '../../../shared/model/filter.model';
 
 @Component({
   selector: 'app-configuration-side-bar',
@@ -25,17 +26,19 @@ export class ConfigurationSideBarComponent implements OnInit {
 
   @Input()
   set configurations(c: IConfigurationDescriptor[]) {
-    this.pConfigurations = c;
-    this.filter(this.filterText);
+    this.configurationsSubject.next(c);
   }
 
   get configurations() {
-    return this.pConfigurations;
+    return this.configurationsSubject.getValue();
   }
 
-  pConfigurations: IConfigurationDescriptor[];
-  filtered: IConfigurationDescriptor[];
-  filterText = '';
+  filtered$: Observable<IConfigurationDescriptor[]>;
+  configurationsSubject: BehaviorSubject<IConfigurationDescriptor[]>;
+  listTypeSubject: BehaviorSubject<FilterType>;
+  filterTextSubject: BehaviorSubject<string>;
+
+  filterType = FilterType;
 
   constructor(
     public widget: DamWidgetComponent,
@@ -44,14 +47,37 @@ export class ConfigurationSideBarComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<any>,
   ) {
+    this.configurationsSubject = new BehaviorSubject([]);
+    this.listTypeSubject = new BehaviorSubject(FilterType.ALL);
+    this.filterTextSubject = new BehaviorSubject('');
 
+    this.filtered$ = combineLatest([
+      this.configurationsSubject,
+      this.listTypeSubject,
+      this.filterTextSubject,
+    ]).pipe(
+      map(([configuration, type, text]) => {
+        return filterDescriptorByType(configuration, type).filter((conf) => {
+          return conf.name.includes(text);
+        });
+      }),
+    );
   }
 
-  filter(text) {
-    this.filterText = text;
-    this.filtered = this.configurations.filter((conf) => {
-      return conf.name.includes(text);
-    });
+  set listType(type: FilterType) {
+    this.listTypeSubject.next(type);
+  }
+
+  get listType() {
+    return this.listTypeSubject.getValue();
+  }
+
+  get filterText() {
+    return this.filterTextSubject.getValue();
+  }
+
+  set filterText(text: string) {
+    this.filterTextSubject.next(text);
   }
 
   // tslint:disable-next-line: cognitive-complexity

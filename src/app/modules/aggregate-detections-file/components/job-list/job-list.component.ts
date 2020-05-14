@@ -54,8 +54,6 @@ export class JobListComponent implements OnInit {
         })
       ];
     });
-    console.log(this.filesFlat);
-    console.log(this.groupsMeta);
   }
 
   ngOnInit(): void {

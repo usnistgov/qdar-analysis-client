@@ -11,15 +11,15 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 20px;">
       <h5 class="title-text"> Report Templates List </h5>
       <div>
-        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" style="border: 1px solid #dee2e6; border-radius: 3px;">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="listType" [(ngModel)]="listType" style="border: 1px solid #dee2e6; border-radius: 3px;">
           <label ngbButtonLabel class="btn-light btn-sm">
-            <input ngbButton type="radio" [value]="1"> Owned
+            <input ngbButton type="radio" [value]="filterType.OWNED"> Owned
           </label>
           <label ngbButtonLabel class="btn-light btn-sm">
-            <input ngbButton type="radio" value="middle"> Public
+            <input ngbButton type="radio" [value]="filterType.PUBLIC"> Public
           </label>
           <label ngbButtonLabel class="btn-light btn-sm">
-            <input ngbButton type="radio" [value]="false"> All
+            <input ngbButton type="radio" [value]="filterType.ALL"> All
           </label>
         </div>
       </div>
@@ -43,7 +43,7 @@
           <th style="vertical-align: middle; width: 400px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span>Actions</span>
-              <button class="btn btn-secondary btn-sm">
+              <button class="btn btn-secondary btn-sm" (click)="create()">
                 <i class="fa fa-plus"></i>
                 Create Report Template
               </button>
@@ -71,7 +71,7 @@
           </td>
           <td>
             <div style="width: 100%; height: 100%; display: flex; justify-content: flex-end;">
-              <button class="btn btn-sm btn-success"  style="margin-right: 5px;">
+              <button class="btn btn-sm btn-success"  style="margin-right: 5px;" [routerLink]="['/', 'report-templates', rowData.id ]">
                 <i class="fa fa-arrow-up"></i>
                 Open
               </button>

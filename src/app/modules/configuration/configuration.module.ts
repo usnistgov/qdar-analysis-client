@@ -10,6 +10,7 @@ import { ConfigurationToolbarComponent } from './components/configuration-toolba
 import { ConfigurationSideBarComponent } from './components/configuration-side-bar/configuration-side-bar.component';
 import { ConfigurationEditorComponent } from './components/configuration-editor/configuration-editor.component';
 import { ConfigurationTitleComponent } from './components/configuration-title/configuration-title.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({

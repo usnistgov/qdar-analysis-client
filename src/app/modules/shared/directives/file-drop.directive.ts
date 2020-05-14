@@ -16,7 +16,6 @@ export class FileDropDirective {
   }
 
   @HostListener('mouseenter') onMouseEnter() {
-    console.log('MOUSE ENTER');
   }
 
   @HostListener('drop', ['$event']) onDrop(event) {

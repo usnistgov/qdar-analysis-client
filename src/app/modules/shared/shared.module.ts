@@ -19,6 +19,8 @@ import { FileUploadFieldComponent } from './components/file-upload-field/file-up
 import { FileDropDirective } from './directives/file-drop.directive';
 import { DescriptorDisplayComponent } from './components/descriptor-display/configuration-display.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TreeModule } from 'angular-tree-component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DamMessagesModule,
     DropdownModule,
     NgbModule,
+    TreeModule,
+    MatDialogModule,
   ],
   exports: [
     // Modules,
@@ -58,6 +62,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DamMessagesModule,
     DropdownModule,
     NgbModule,
+    TreeModule,
+    MatDialogModule,
 
     // Components,
     AgeGroupsComponent,

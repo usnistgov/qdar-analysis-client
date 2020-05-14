@@ -4,4 +4,5 @@ export enum EntityType {
   ADF = 'ADF',
   CONFIGURATION = 'CONFIGURATION',
   TEMPLATE = 'TEMPLATE',
+  SECTION = 'SECTION',
 }

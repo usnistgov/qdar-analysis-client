@@ -204,3 +204,22 @@ dam-fullscreen-button button {
   grid-row: row-content;
   overflow: hidden;
 }
+
+.section-node-active {
+  background-color: $nist_light_yellow !important;
+}
+
+.section-editor .ui-editor-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-editor .ui-editor-content {
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.node-content-wrapper {
+  width: 100%;
+}
