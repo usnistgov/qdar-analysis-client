@@ -137,7 +137,7 @@ dam-fullscreen-button button {
 }
 
 .ng-invalid:not(form)  {
-  background-color: rgb(255, 221, 226);
+  background-color: $invalid_color !important;
   border-bottom: 2px solid #d6403d; /* red */
 }
 
@@ -222,4 +222,14 @@ dam-fullscreen-button button {
 
 .node-content-wrapper {
   width: 100%;
+}
+
+.ui-tabview-nav .valid-tab.ui-state-active {
+  background-color: $nist_light_yellow !important;
+  border: 1px solid #d6d6d6e3 !important;
+}
+
+.ui-tabview-nav .invalid-tab {
+  background-color: $invalid_color !important;
+  border: 1px solid #d6d6d6e3 !important;
 }

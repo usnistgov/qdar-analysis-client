@@ -14,10 +14,14 @@ import { Actions } from '@ngrx/effects';
 import { ReportTemplateService } from '../../services/report-template.service';
 import { Observable, Subscription, throwError, of, combineLatest } from 'rxjs';
 import { IReportSectionDisplay } from '../../model/state.model';
-import { selectSectionById, selectRtIsViewOnly, selectRtIsPublished, selectRtIsOwned } from '../../store/core.selectors';
+import { selectSectionById, selectRtIsViewOnly, selectRtIsPublished, selectRtIsOwned, selectReportTemplateConfiguration } from '../../store/core.selectors';
 import { switchMap, map, take, concatMap, catchError, flatMap } from 'rxjs/operators';
 import { IReportSection } from '../../model/report-template.model';
 import { EntityType } from '../../../shared/model/entity.model';
+import { IDetectionResource, ICvxResource } from 'src/app/modules/shared/model/public.model';
+import { selectAllDetections, selectAllCvx, selectPatientTables, selectVaccinationTables } from '../../../shared/store/core.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { QueryDialogComponent } from '../../../shared/components/query-dialog/query-dialog.component';
 
 export const RT_SECTION_PAYLOAD_EDITOR_METADATA: IEditorMetadata = {
   id: 'RT_SECTION_PAYLOAD_EDITOR_ID',
@@ -35,12 +39,15 @@ export class RtSectionPayloadEditorComponent extends DamAbstractEditorComponent 
   isPublished$: Observable<boolean>;
   isOwned$: Observable<boolean>;
   isAdmin$: Observable<boolean>;
+  detections$: Observable<IDetectionResource[]>;
+  cvxs$: Observable<ICvxResource[]>;
   value: IReportSection;
   wSub: Subscription;
 
   constructor(
     store: Store<any>,
     actions$: Actions,
+    private dialog: MatDialog,
     private reportTemplateService: ReportTemplateService,
     private messageService: MessageService,
   ) {
@@ -50,6 +57,8 @@ export class RtSectionPayloadEditorComponent extends DamAbstractEditorComponent 
       store,
     );
 
+    this.detections$ = this.store.select(selectAllDetections);
+    this.cvxs$ = this.store.select(selectAllCvx);
     this.viewOnly$ = this.store.select(selectRtIsViewOnly);
     this.isPublished$ = this.store.select(selectRtIsPublished);
     this.isOwned$ = this.store.select(selectRtIsOwned);
@@ -60,6 +69,35 @@ export class RtSectionPayloadEditorComponent extends DamAbstractEditorComponent 
         this.value = {
           ...section,
         };
+      }),
+    ).subscribe();
+  }
+
+  createPayload() {
+    combineLatest([
+      this.detections$,
+      this.cvxs$,
+      this.store.select(selectReportTemplateConfiguration),
+      this.store.select(selectPatientTables),
+      this.store.select(selectVaccinationTables),
+    ]).pipe(
+      take(1),
+      flatMap(([detections, cvxCodes, configuration, patientTables, vaccinationTables]) => {
+        return this.dialog.open(QueryDialogComponent, {
+          width: '60vw',
+          data: {
+            detections,
+            cvxCodes,
+            configuration,
+            patientTables,
+            vaccinationTables,
+            query: this.reportTemplateService.getEmptyDataViewQuery(),
+          }
+        }).afterClosed().pipe(
+          map((data) => {
+            console.log(data);
+          }),
+        );
       }),
     ).subscribe();
   }

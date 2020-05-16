@@ -21,6 +21,15 @@ import { DescriptorDisplayComponent } from './components/descriptor-display/conf
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TreeModule } from 'angular-tree-component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { QueryDialogComponent } from './components/query-dialog/query-dialog.component';
+import { GeneralQueryDataComponent } from './components/query-dialog/general-query-data/general-query-data.component';
+import { QuerySelectorComponent } from './components/query-dialog/query-selector/query-selector.component';
+import { TabViewModule } from 'primeng/tabview';
+import { QueryGroupComponent } from './components/query-dialog/query-group/query-group.component';
+import { QueryThresholdComponent } from './components/query-dialog/query-threshold/query-threshold.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FieldInputComponent } from './components/field-input/field-input.component';
+import { PostFiltersComponent } from './components/query-dialog/post-filters/post-filters.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,14 @@ import { MatDialogModule } from '@angular/material/dialog';
     DetectionsPickerComponent,
     FileUploadFieldComponent,
     FileDropDirective,
-    DescriptorDisplayComponent
+    DescriptorDisplayComponent,
+    QueryDialogComponent,
+    GeneralQueryDataComponent,
+    QuerySelectorComponent,
+    QueryGroupComponent,
+    QueryThresholdComponent,
+    FieldInputComponent,
+    PostFiltersComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +64,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     NgbModule,
     TreeModule,
     MatDialogModule,
+    TabViewModule,
+    DragDropModule,
+
   ],
   exports: [
     // Modules,
@@ -64,7 +83,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NgbModule,
     TreeModule,
     MatDialogModule,
-
+    DragDropModule,
     // Components,
     AgeGroupsComponent,
     DetectionsListComponent,
@@ -72,6 +91,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     FileUploadFieldComponent,
     FileDropDirective,
     DescriptorDisplayComponent,
+    QueryDialogComponent,
+    GeneralQueryDataComponent,
+    QuerySelectorComponent,
   ]
 })
 export class SharedModule { }

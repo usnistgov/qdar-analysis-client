@@ -14,5 +14,9 @@ export interface ICvxCode {
   name: string;
 }
 
+export interface ICvxMap {
+  [code: string]: ICvxCode;
+}
+
 export interface IDetectionResource extends IDamResource, IDetectionDescriptor { }
 export interface ICvxResource extends IDamResource, ICvxCode { }

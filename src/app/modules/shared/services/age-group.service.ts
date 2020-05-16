@@ -16,12 +16,16 @@ export class AgeGroupService {
 
   getBracketLabel(bracket: IBracket) {
     return [
-      bracket.year,
+      ...bracket.year ? [bracket.year,
       this.plural(bracket.year, 'year'),
-      bracket.month,
+      ] : [],
+      ...bracket.month ? [bracket.month,
       this.plural(bracket.year, 'month'),
-      bracket.day,
+      ] : [],
+      ...bracket.day ? [bracket.day,
       this.plural(bracket.year, 'day'),
+      ] : [],
+      (bracket.month + bracket.day + bracket.year) === 0 ? 'Birth' : '',
     ].join(' ');
   }
 

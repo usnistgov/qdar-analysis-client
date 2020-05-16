@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Data Table Query Builder [type : {{nameOf(value.type)}}]</h2>
+<dam-alerts [messages]="messages"></dam-alerts>
+<p-tabView>
+  <p-tabPanel header="General Query Data" [headerStyleClass]="!tabsValid.general.valid ? 'invalid-tab' : 'valid-tab'">
+    <app-general-query-data
+      [(value)]="value"
+      (valid)="setValidStatus('general', $event)"
+      [paths]="paths"
+    ></app-general-query-data>
+  </p-tabPanel>
+  <p-tabPanel header="Data Selection"  [headerStyleClass]="!tabsValid.selectors.valid ? 'invalid-tab' : 'valid-tab'">
+    <app-query-selector
+      [(value)]="value.selectors"
+      (valid)="setValidStatus('selectors', $event)"
+      (messages)="setMessages('selectors', $event)"
+      [options]="options"
+      [analysis]="value.type"
+    ></app-query-selector>
+  </p-tabPanel>
+  <p-tabPanel header="Group By"  [headerStyleClass]="!tabsValid.groupBy.valid ? 'invalid-tab' : 'valid-tab'">
+    <app-query-group
+      [(value)]="value.groupBy"
+      (valid)="setValidStatus('groupBy', $event)"
+      (messages)="setMessages('groupBy', $event)"
+      [analysis]="value.type"
+    ></app-query-group>
+  </p-tabPanel>
+  <p-tabPanel header="Post Process Filters"  [headerStyleClass]="!tabsValid.postProcess.valid ? 'invalid-tab' : 'valid-tab'">
+    <app-post-filters
+      [(value)]="value"
+      (valid)="setValidStatus('postProcess', $event)"
+      (messages)="setMessages('postProcess', $event)"
+      [options]="options"
+      [analysis]="value.type"
+    ></app-post-filters>
+  </p-tabPanel>
+  <p-tabPanel header="Thresholds">
+    Content 3
+  </p-tabPanel>
+</p-tabView>
+<mat-dialog-actions style="justify-content: flex-end;">
+  <button class="btn btn-sm btn-secondary" style="margin-right: 5px;">Cancel</button>
+  <button class="btn btn-sm btn-success">Done</button>
+</mat-dialog-actions>

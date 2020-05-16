@@ -41,9 +41,35 @@ export interface IReportSection extends IDamResource {
 
 export interface IDataViewQuery {
   type: AnalysisType;
+  caption: string;
+  paginate: boolean;
+  rows: number;
   selectors: IDataSelector[];
   groupBy: Field[];
-  threshold: {
+  filter: {
+    denominator: {
+      active: boolean;
+      value: number;
+      comparator: Comparator;
+    };
+    percentage: {
+      active: boolean;
+      value: number;
+      comparator: Comparator;
+    };
+    threshold: {
+      active: boolean;
+      pass: boolean;
+    };
+    groups: {
+      active: boolean;
+      keep: boolean;
+      values: {
+        [field: string]: IValueContainer,
+      }[]
+    };
+  };
+  threshold?: {
     custom: IComplexThreshold[],
     global: IThreshold,
   };
@@ -52,7 +78,11 @@ export interface IDataViewQuery {
 
 export interface IDataSelector {
   field: Field;
-  values: string[];
+  values: IValueContainer[];
+}
+
+export interface IValueContainer {
+  value: any;
 }
 
 export interface IComplexThreshold {
@@ -61,11 +91,11 @@ export interface IComplexThreshold {
 }
 
 export interface IThreshold {
-  shouldBe: ThresholdGoal;
+  comparator: Comparator;
   value: number;
 }
 
-export enum ThresholdGoal {
-  ABOVE = 'ABOVE',
-  BELOW = 'BELOW',
+export enum Comparator {
+  GT = 'GT',
+  LT = 'LT',
 }

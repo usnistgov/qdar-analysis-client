@@ -3,7 +3,7 @@ $nist_dark_blue: #021a4c;
 $nist_light_blue: #739fff;
 $nist_dark_yellow: #F3C60D;
 $nist_light_yellow: #ffec9d;
-
+$invalid_color: rgb(255, 221, 226);
 // Application Background
 %app-background {
   @extend %blue-bg;

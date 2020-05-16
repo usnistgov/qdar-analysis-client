@@ -117,13 +117,19 @@ export class WidgetEffects extends DamWidgetEffect {
         this.reportTemplateService.getById(action.id),
         this.supportDataService.getCvxCodes(),
         this.supportDataService.getDetections(),
+        this.supportDataService.getPatientTables(),
+        this.supportDataService.getVaccinationTables(),
       ]).pipe(
-        flatMap(([template, cvx, detections]) => {
+        flatMap(([template, cvx, detections, patientTables, vaccinationTables]) => {
           this.reportTemplateService.sortList(template.sections, undefined, false);
           return [
             new LoadPayloadData(template),
-            new SetValue({ sections: template.sections }),
-            new SetValue({ tableOfContentChanged: false }),
+            new SetValue({
+              sections: template.sections,
+              tableOfContentChanged: false,
+              patientTables,
+              vaccinationTables,
+            }),
             new LoadResourcesInRepository<IDetectionResource | ICvxResource | IReportSection>({
               collections: [{
                 key: 'detections',

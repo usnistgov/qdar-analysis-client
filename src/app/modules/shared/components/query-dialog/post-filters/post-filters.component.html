@@ -1,0 +1,139 @@
+<form #form="ngForm">
+  <div>
+    <div class="form-group" style="border-bottom: 1px solid #cecece;">
+      <input type="checkbox" class="form-check-input" id="pc" name="pc" [(ngModel)]="value.filter.percentage.active" (ngModelChange)="triggerChange()">
+      <label class="form-check-label" for="pc">Filter by percentage</label>
+    </div>
+    <div *ngIf="value.filter.percentage.active">
+      <div class="form-group" style="display: flex; width: 100%; align-items: center; justify-content: center;">
+        <p-dropdown
+        [options]="comparatorOptions"
+        [autoDisplayFirst]="false"
+        id="perc"
+        name="perc"
+        appendTo="body"
+        required
+        placeholder="Comparator"
+        [(ngModel)]="value.filter.percentage.comparator"
+        (ngModelChange)="triggerChange()"
+        [style]="{ 'width' : '100%' }">
+        </p-dropdown>
+        <input
+          style="margin-left: 10px;"
+          [(ngModel)]="value.filter.percentage.value"
+          (ngModelChange)="triggerChange()"
+          required type="number" placeholder="Denominator Value" class="form-control" name="perc" id="perc">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-group" style="border-bottom: 1px solid #cecece;">
+      <input type="checkbox" class="form-check-input" id="denom" name="denom" [(ngModel)]="value.filter.denominator.active" (ngModelChange)="triggerChange()">
+      <label class="form-check-label" for="denom">Filter by denominator</label>
+    </div>
+    <div *ngIf="value.filter.denominator.active">
+      <div class="form-group" style="display: flex; width: 100%; align-items: center; justify-content: center;">
+        <p-dropdown
+        [options]="comparatorOptions"
+        [autoDisplayFirst]="false"
+        id="denomcomp"
+        name="denomcomp"
+        appendTo="body"
+        required
+        placeholder="Comparator"
+        [(ngModel)]="value.filter.denominator.comparator"
+        (ngModelChange)="triggerChange()"
+        [style]="{ 'width' : '100%' }">
+        </p-dropdown>
+        <input
+          style="margin-left: 10px;"
+          [(ngModel)]="value.filter.denominator.value"
+          (ngModelChange)="triggerChange()"
+          required type="number" placeholder="Denominator Value" class="form-control" name="deno" id="deno">
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-group" style="border-bottom: 1px solid #cecece;">
+      <input type="checkbox" class="form-check-input" id="thresholdv" name="thresholdv" [(ngModel)]="value.filter.threshold.active" (ngModelChange)="triggerChange()">
+      <label class="form-check-label" for="thresholdv">Filter by threshold activation</label>
+    </div>
+    <div class="form-group" style="display: flex; width: 100%;align-items: center;" *ngIf="value.filter.threshold.active">
+      <div required class="btn-group btn-group-toggle" ngbRadioGroup name="pass" style="border: 1px solid #dee2e6; border-radius: 3px;"
+        [(ngModel)]="value.filter.threshold.pass" (ngModelChange)="triggerChange()">
+        <label ngbButtonLabel class="btn-light">
+          <input ngbButton type="radio" [value]="true"><span style="color: green;">Pass</span>
+        </label>
+        <label ngbButtonLabel class="btn-light">
+          <input ngbButton type="radio" [value]="false"><span style="color: red;">Fail</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="form-group" style="border-bottom: 1px solid #cecece;">
+      <input type="checkbox" class="form-check-input" id="fieldv" name="fieldv" [(ngModel)]="value.filter.groups.active" (ngModelChange)="triggerChange()">
+      <label class="form-check-label" for="fieldv">Filter by group field values</label>
+    </div>
+    <div class="form-group" style="display: flex; flex-direction: column; width: 100%;align-items: flex-start;" *ngIf="value.filter.groups.active">
+      <div required class="btn-group btn-group-toggle" ngbRadioGroup style="border: 1px solid #dee2e6; border-radius: 3px; margin-bottom: 10px;"
+        id="keep" name="keep" [(ngModel)]="value.filter.groups.keep" (ngModelChange)="triggerChange()">
+        <label ngbButtonLabel class="btn-light btn-sm">
+          <input ngbButton type="radio" [value]="true">Keep Only
+        </label>
+        <label ngbButtonLabel class="btn-light btn-sm">
+          <input ngbButton type="radio" [value]="false">Filter Out
+        </label>
+      </div>
+      <table class="table table-sm table-striped table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 80px;">
+              <button class="btn btn-sm btn-primary pull-left" (click)="addGroupFilter(value.filter.groups.values)">
+                <i class="fa fa-plus"></i>
+              </button>
+            </th>
+            <th *ngFor="let field of value.groupBy" style="text-align: center; vertical-align: middle;">{{field}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let valuesMap of value.filter.groups.values; let j = index"
+              [ngClass]="{
+                'table-danger' : isEmpty(valuesMap) && !value.filter.groups.keep,
+                'table-warning' : isEmpty(valuesMap) && value.filter.groups.keep
+              }">
+            <td style="width: 80px;">
+              <button class="btn btn-sm btn-danger pull-left" (click)="removeGroupFilter(value.filter.groups.values, j)">
+                <i class="fa fa-minus"></i>
+              </button>
+            </td>
+            <td *ngFor="let field of value.groupBy; let i = index">
+              <div style="display: flex; align-items: center;" *ngIf="!valuesMap[field]">
+                <strong style="flex-grow: 1; text-align: center;"> * (ANY VALUE) </strong>
+                <button  class="btn btn-sm btn-light pull-right" style="border: 1px solid;" (click)="addFieldValue(valuesMap, field)">
+                  Set Value
+                </button>
+              </div>
+              <div *ngIf="valuesMap[field]" style="display: flex; align-items: center; padding-right: 4.8px;">
+                <app-field-input
+                  [analysis]="analysis"
+                  [options]="options"
+                  [field]="field"
+                  [id]="field + '-' + j + '-' + i"
+                  [name]="field + '-' + j + '-' + i"
+                  [(ngModel)]="valuesMap[field].value"
+                  (ngModelChange)="triggerChange()"
+                  required
+                  style="flex-grow: 1;"
+                ></app-field-input>
+                <button class="btn btn-sm btn-danger" (click)="clearFieldValue(valuesMap, field)">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>

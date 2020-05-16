@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message, LoadPayloadData, InsertResourcesInCollection, SetValue, DeleteResourcesFromCollection, LoadResourcesInRepository } from 'ngx-dam-framework';
 import { EntityType } from '../../shared/model/entity.model';
-import { IReportTemplateDescriptor, IReportTemplate, IReportSection, IReportTemplateCreate } from '../model/report-template.model';
+import { IReportTemplateDescriptor, IReportTemplate, IReportSection, IReportTemplateCreate, IDataViewQuery, Comparator } from '../model/report-template.model';
 import { IDescriptor } from '../../shared/model/descriptor.model';
 import { Action } from '@ngrx/store';
 import { IReportSectionDisplay } from '../model/state.model';
 import { Guid } from 'guid-typescript';
+import { AnalysisType, Field } from '../model/analysis.values';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,40 @@ export class ReportTemplateService {
       viewOnly: undefined,
       configuration: undefined,
       sections: [],
+    };
+  }
+
+  getEmptyDataViewQuery(): IDataViewQuery {
+    return {
+      type: AnalysisType.VACCINCATIONS_DETECTIONS,
+      caption: '',
+      paginate: true,
+      rows: 10,
+      selectors: [],
+      groupBy: [
+        Field.DETECTION,
+      ],
+      filter: {
+        denominator: {
+          active: false,
+          value: 0,
+          comparator: Comparator.GT,
+        },
+        percentage: {
+          active: false,
+          value: 0,
+          comparator: Comparator.GT,
+        },
+        threshold: {
+          active: false,
+          pass: true,
+        },
+        groups: {
+          keep: false,
+          active: false,
+          values: [],
+        }
+      }
     };
   }
 

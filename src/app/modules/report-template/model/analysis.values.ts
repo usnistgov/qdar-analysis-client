@@ -22,11 +22,11 @@ export interface Compatibility {
 }
 
 export const fieldsForAnalysis: Compatibility = {
-  VACCINCATIONS: [Field.PROVIDER, Field.AGE_GROUP, Field.EVENT, Field.GENDER, Field.VACCINATION_YEAR, Field.VACCINE_CODE],
-  VACCINCATIONS_DETECTIONS: [Field.PROVIDER, Field.AGE_GROUP, Field.DETECTION],
-  VACCINCATIONS_VOCABULARY: [Field.PROVIDER, Field.AGE_GROUP, Field.TABLE, Field.CODE],
-  PATIENTS_DETECTIONS: [Field.AGE_GROUP, Field.DETECTION],
-  PATIENTS_VOCABULARY: [Field.AGE_GROUP, Field.TABLE, Field.CODE]
+  [AnalysisType.VACCINCATIONS]: [Field.PROVIDER, Field.AGE_GROUP, Field.EVENT, Field.GENDER, Field.VACCINATION_YEAR, Field.VACCINE_CODE],
+  [AnalysisType.VACCINCATIONS_DETECTIONS]: [Field.PROVIDER, Field.AGE_GROUP, Field.DETECTION],
+  [AnalysisType.VACCINCATIONS_VOCABULARY]: [Field.PROVIDER, Field.AGE_GROUP, Field.TABLE, Field.CODE],
+  [AnalysisType.PATIENTS_DETECTIONS]: [Field.AGE_GROUP, Field.DETECTION],
+  [AnalysisType.PATIENTS_VOCABULARY]: [Field.AGE_GROUP, Field.TABLE, Field.CODE]
 };
 
 export const names = {
