@@ -30,6 +30,9 @@ import { QueryThresholdComponent } from './components/query-dialog/query-thresho
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FieldInputComponent } from './components/field-input/field-input.component';
 import { PostFiltersComponent } from './components/query-dialog/post-filters/post-filters.component';
+import { AccordionModule } from 'primeng/accordion';
+import { DataTableComponent } from './components/data-table/data-table.component';
+import { VisualBarComponent } from './components/visual-bar/visual-bar.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,8 @@ import { PostFiltersComponent } from './components/query-dialog/post-filters/pos
     QueryThresholdComponent,
     FieldInputComponent,
     PostFiltersComponent,
+    DataTableComponent,
+    VisualBarComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +71,7 @@ import { PostFiltersComponent } from './components/query-dialog/post-filters/pos
     MatDialogModule,
     TabViewModule,
     DragDropModule,
+    AccordionModule,
 
   ],
   exports: [
@@ -84,6 +90,8 @@ import { PostFiltersComponent } from './components/query-dialog/post-filters/pos
     TreeModule,
     MatDialogModule,
     DragDropModule,
+    AccordionModule,
+
     // Components,
     AgeGroupsComponent,
     DetectionsListComponent,
@@ -94,6 +102,9 @@ import { PostFiltersComponent } from './components/query-dialog/post-filters/pos
     QueryDialogComponent,
     GeneralQueryDataComponent,
     QuerySelectorComponent,
+    DataTableComponent,
+    VisualBarComponent,
+
   ]
 })
 export class SharedModule { }

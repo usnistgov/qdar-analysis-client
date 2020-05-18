@@ -11,7 +11,7 @@
   </div>
   <div class="form-group" *ngIf="compatibilities$ | async as compatibilities" >
     <label for="configuration"><strong>Configuration Compatibilities</strong></label>
-    <div style="width: 100%; display: flex; justify-content: flex-start; align-items: flex-start;">
+    <div style="width: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
       <ng-container *ngFor="let conf of compatibilities || []">
         <div class="badge cursor-pointer" style="background-color: rgb(235, 235, 235); font-size: initial; margin-top: 2px;" [routerLink]="['/', 'configurations', conf.id ]">
           <i class="fa fa-cog" style="color: blueviolet; margin-right: 5px;"></i>

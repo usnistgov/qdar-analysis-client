@@ -57,7 +57,7 @@
           <td>
             <app-descriptor-display [descriptor]="rowData"></app-descriptor-display>
           </td>
-          <td>
+          <td style="display: flex; flex-direction: column; align-items: flex-start;">
             <ng-container *ngFor="let conf of rowData.compatibilities || []">
               <div class="badge cursor-pointer" style="background-color: rgb(235, 235, 235); font-size: initial; margin-top: 2px;" [routerLink]="['/', 'configurations', conf.id ]">
                 <i class="fa fa-cog" style="color: blueviolet; margin-right: 5px;"></i>

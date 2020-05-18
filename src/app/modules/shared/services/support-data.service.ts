@@ -53,49 +53,4 @@ export class SupportDataService {
     return this.http.get<string[]>(this.PUBLIC + 'codesets/vaccination');
   }
 
-  getFieldOptions(data: IFieldInputData): IFieldInputOptions {
-    const standardTransform = (elm) => {
-      return {
-        label: elm,
-        value: elm,
-      };
-    };
-
-    return {
-      detectionOptions: data.detections.map((elm) => {
-        return {
-          label: elm.id + ' - ' + elm.description,
-          value: elm.id,
-        };
-      }),
-      cvxOptions: data.cvxs.map((elm) => {
-        return {
-          label: elm.id + ' - ' + elm.name,
-          value: elm.id,
-        };
-      }),
-      ageGroupOptions: [
-        ...data.ageGroups.map((elm, i) => {
-          return {
-            label: this.ageGroupService.getAgeGroupLabel(elm),
-            value: 'g' + i,
-          };
-        }),
-        {
-          label: this.ageGroupService.getBracketLabel(this.ageGroupService.openBracket(data.ageGroups)) + ' -> + infinity',
-          value: 'g' + data.ageGroups.length,
-        }
-      ],
-      vaccinationTableOptions: data.tables.patientTables.map(standardTransform),
-      patientTableOptions: data.tables.patientTables.map(standardTransform),
-      eventOptions: [{
-        label: 'Administered',
-        value: '00'
-      }, {
-        label: 'Historical',
-        value: '01'
-      }],
-    };
-  }
-
 }

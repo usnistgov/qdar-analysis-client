@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChange
 import { Field, fieldsForAnalysis, AnalysisType } from '../../../../report-template/model/analysis.values';
 import { UserMessage, MessageType } from 'ngx-dam-framework';
 import { QueryDialogTabComponent } from '../query-dialog-tab/query-dialog-tab.component';
+import { IValueContainer, IComplexThreshold } from '../../../../report-template/model/report-template.model';
 
 @Component({
   selector: 'app-query-group',
@@ -9,6 +10,14 @@ import { QueryDialogTabComponent } from '../query-dialog-tab/query-dialog-tab.co
   styleUrls: ['./query-group.component.scss']
 })
 export class QueryGroupComponent extends QueryDialogTabComponent<Field[]> implements OnInit, OnChanges {
+
+  @Input()
+  filterGoup: {
+    [field: string]: IValueContainer;
+  }[];
+
+  @Input()
+  thresholds: IComplexThreshold[];
 
   fieldsList: Field[];
 
@@ -30,6 +39,12 @@ export class QueryGroupComponent extends QueryDialogTabComponent<Field[]> implem
     };
   }
 
+  isInFilter(field: Field, filters: any[]) {
+    return filters.findIndex((vMap) => {
+      return vMap[field];
+    }) !== -1;
+  }
+
   addGroup(field: Field) {
     const index = this.fieldsList.indexOf(field);
     this.fieldsList.splice(index, 1);
@@ -40,7 +55,17 @@ export class QueryGroupComponent extends QueryDialogTabComponent<Field[]> implem
   removeGroup(i: number) {
     const group = this.value[i];
     this.fieldsList.push(group);
+    this.filterGoup.forEach((vMap) => {
+      delete vMap[group];
+    });
+    this.thresholds.forEach((t) => {
+      delete t.values[group];
+    });
     this.value.splice(i, 1);
+    if (this.value.length === 0) {
+      this.filterGoup.length = 0;
+      this.thresholds.length = 0;
+    }
     this.emitChange(this.value);
   }
 

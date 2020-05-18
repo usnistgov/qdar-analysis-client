@@ -69,9 +69,15 @@ export interface IDataViewQuery {
       }[]
     };
   };
-  threshold?: {
-    custom: IComplexThreshold[],
-    global: IThreshold,
+  threshold: {
+    custom: {
+      active: boolean,
+      thresholds: IComplexThreshold[],
+    },
+    global: {
+      active: boolean,
+      goal: IThreshold,
+    }
   };
 }
 
@@ -86,8 +92,10 @@ export interface IValueContainer {
 }
 
 export interface IComplexThreshold {
-  selectors: IDataSelector[];
-  threshold: IThreshold;
+  values: {
+    [field: string]: IValueContainer,
+  };
+  goal: IThreshold;
 }
 
 export interface IThreshold {
@@ -98,4 +106,5 @@ export interface IThreshold {
 export enum Comparator {
   GT = 'GT',
   LT = 'LT',
+  EQ = 'EQ'
 }

@@ -64,7 +64,20 @@ export class ReportTemplateService {
           active: false,
           values: [],
         }
-      }
+      },
+      threshold: {
+        global: {
+          active: false,
+          goal: {
+            value: 1,
+            comparator: Comparator.LT,
+          }
+        },
+        custom: {
+          active: false,
+          thresholds: [],
+        }
+      },
     };
   }
 

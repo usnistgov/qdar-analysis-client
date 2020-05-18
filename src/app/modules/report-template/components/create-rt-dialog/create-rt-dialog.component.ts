@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IConfigurationDescriptor } from '../../../configuration/model/configuration.model';
 import { map } from 'rxjs/operators';
+import { SelectItem } from 'primeng/api/selectitem';
 
 @Component({
   selector: 'app-create-rt-dialog',
@@ -10,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class CreateRtDialogComponent implements OnInit {
 
-  configurations: IConfigurationDescriptor[];
+  configurations: SelectItem[];
   configurationId: string;
   reportTemplateName: string;
 

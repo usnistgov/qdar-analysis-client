@@ -1,13 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { IADFDescriptor } from '../../model/adf.model';
-import { Observable } from 'rxjs';
-import { map, concatMap } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, concatMap, flatMap, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { selectFiles } from '../../store/core.selectors';
 import { RxjsStoreHelperService, DeleteResourcesFromCollection, MessageType, ConfirmDialogComponent } from 'ngx-dam-framework';
 import { FileService } from '../../services/file.service';
 import { MatDialog } from '@angular/material/dialog';
+import { AdfJobDialogComponent } from '../adf-job-dialog/adf-job-dialog.component';
+import { AnalysisService } from '../../../shared/services/analysis.service';
+import { QueryDialogComponent } from '../../../shared/components/query-dialog/query-dialog.component';
+import { selectPatientTables, selectVaccinationTables, selectAllDetections, selectAllCvx } from '../../../shared/store/core.selectors';
+import { ValuesService } from '../../../shared/services/values.service';
+import { ReportTemplateService } from '../../../report-template/services/report-template.service';
+import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 
 @Component({
   selector: 'app-adf-list',
@@ -21,6 +28,9 @@ export class AdfListComponent implements OnInit {
   constructor(
     private store: Store<any>,
     private helper: RxjsStoreHelperService,
+    private analysisService: AnalysisService,
+    private rt: ReportTemplateService,
+    private valueService: ValuesService,
     private dialog: MatDialog,
     private fileService: FileService,
   ) {
@@ -34,6 +44,81 @@ export class AdfListComponent implements OnInit {
       }),
     );
   }
+
+  query(fileId: string) {
+    combineLatest([
+      this.fileService.getFileMetadata(fileId),
+      this.store.select(selectAllDetections),
+      this.store.select(selectAllCvx),
+      this.store.select(selectPatientTables),
+      this.store.select(selectVaccinationTables),
+    ]).pipe(
+      map(([file, detections, cvxCodes, patientTables, vaccinationTables]) => {
+        return this.valueService.getFieldOptions({
+          detections: detections.filter((d) => file.configuration.detections.includes(d.id)),
+          ageGroups: file.configuration.ageGroups,
+          cvxs: cvxCodes,
+          tables: {
+            vaccinationTables,
+            patientTables,
+          }
+        });
+      }),
+    ).pipe(
+      take(1),
+      flatMap((options) => {
+        return this.dialog.open(QueryDialogComponent, {
+          minWidth: '70vw',
+          maxWidth: '93vw',
+          maxHeight: '95vh',
+          data: {
+            options,
+            query: this.rt.getEmptyDataViewQuery(),
+          }
+        }).afterClosed().pipe(
+          flatMap((data) => {
+            if (data) {
+              return this.analysisService.executeQuery(fileId, data).pipe(
+                map((result) => {
+                  this.dialog.open(DataTableComponent, {
+                    minWidth: '70vw',
+                    maxWidth: '93vw',
+                    maxHeight: '95vh',
+                    data: {
+                      labelizer: this.valueService.getQueryValuesLabel(options),
+                      table: result,
+                    }
+                  });
+                  return result;
+                }),
+              );
+            }
+            return of();
+          }),
+        );
+      }),
+    ).subscribe();
+  }
+
+  analyse(id: string) {
+    this.fileService.templatesForFile(id).pipe(
+      flatMap((templates) => {
+        return this.dialog.open(AdfJobDialogComponent, {
+          data: {
+            templates,
+          }
+        }).afterClosed().pipe(
+          map((value) => {
+            if (value) {
+              console.log(value);
+            }
+          }),
+        );
+      }),
+    ).subscribe();
+  }
+
+
 
   remove(meta: IADFDescriptor) {
     this.dialog.open(

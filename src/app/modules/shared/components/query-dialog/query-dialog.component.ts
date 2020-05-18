@@ -1,13 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { IDetectionResource, ICvxResource, IDetectionMap, ICvxMap } from '../../model/public.model';
 import { SelectItem } from 'primeng/api/selectitem';
 import { AnalysisType, names, Field } from '../../../report-template/model/analysis.values';
 import { IDataViewQuery, IDataSelector } from '../../../report-template/model/report-template.model';
-import { IConfigurationPayload } from '../../../configuration/model/configuration.model';
 import { IFieldInputOptions } from '../field-input/field-input.component';
-import { SupportDataService } from '../../services/support-data.service';
 import { UserMessage } from 'ngx-dam-framework';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-query-dialog',
@@ -15,19 +13,11 @@ import { UserMessage } from 'ngx-dam-framework';
   styleUrls: ['./query-dialog.component.scss']
 })
 export class QueryDialogComponent implements OnInit {
-
-  detections: IDetectionResource[];
-  cvxCodes: ICvxResource[];
-  detectionsMap: IDetectionMap = {};
-  cvxMap: ICvxMap = {};
+  typeNames = names;
   paths: SelectItem[];
-  configuration: IConfigurationPayload;
-  tables: {
-    patientTables: string[];
-    vaccinationTables: string[];
-  };
   options: IFieldInputOptions;
   value: IDataViewQuery;
+  backUp: IDataViewQuery;
   tabsValid = {
     general: {
       valid: true,
@@ -41,39 +31,26 @@ export class QueryDialogComponent implements OnInit {
       valid: true,
       messages: [],
     },
-    postProcess: {
+    filters: {
+      valid: true,
+      messages: [],
+    },
+    thresholds: {
       valid: true,
       messages: [],
     }
   };
 
 
-  typeNames = names;
+
 
   constructor(
     public dialogRef: MatDialogRef<QueryDialogComponent>,
-    public supportData: SupportDataService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    console.log(data);
-
-    this.options = this.supportData.getFieldOptions({
-      detections: data.detections,
-      ageGroups: data.configuration.ageGroups,
-      cvxs: data.cvxCodes,
-      tables: {
-        vaccinationTables: data.vaccinationTables,
-        patientTables: data.patientTables,
-      }
-    });
-    this.value = data.query;
-    this.detections = data.detections;
-    this.cvxCodes = data.cvxCodes;
-    this.configuration = data.configuration;
-    this.tables = {
-      vaccinationTables: data.vaccinationTables,
-      patientTables: data.patientTables,
-    };
+    this.options = data.options;
+    this.value = _.cloneDeep(data.query);
+    this.backUp = _.cloneDeep(this.value);
     this.paths = Object.keys(AnalysisType).map((key) => {
       return {
         label: names[key],
@@ -82,13 +59,26 @@ export class QueryDialogComponent implements OnInit {
     });
   }
 
+  reset() {
+    this.value = _.cloneDeep(this.backUp);
+  }
+
   get messages() {
     return [
       ...this.tabsValid.general.messages,
       ...this.tabsValid.groupBy.messages,
       ...this.tabsValid.selectors.messages,
-      ...this.tabsValid.postProcess.messages,
+      ...this.tabsValid.filters.messages,
+      ...this.tabsValid.thresholds.messages,
     ];
+  }
+
+  get valid() {
+    return this.tabsValid.general.valid &&
+      this.tabsValid.groupBy.valid &&
+      this.tabsValid.selectors.valid &&
+      this.tabsValid.filters.valid &&
+      this.tabsValid.thresholds.valid;
   }
 
   valueOfAnalysis(str: string): AnalysisType {

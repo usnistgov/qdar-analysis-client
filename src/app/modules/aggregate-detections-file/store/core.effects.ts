@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 import { ConfigurationService } from '../../configuration/services/configuration.service';
 import { IConfigurationDescriptor } from '../../configuration/model/configuration.model';
 import { SupportDataService } from '../../shared/services/support-data.service';
-import { IDetectionResource } from '../../shared/model/public.model';
+import { IDetectionResource, ICvxResource } from '../../shared/model/public.model';
 
 @Injectable()
 export class CoreEffects {
@@ -28,14 +28,33 @@ export class CoreEffects {
   loadFiles$ = this.actions$.pipe(
     ofType(CoreActionTypes.LoadADFiles),
     concatMap((action: LoadADFiles) => {
-      return this.fileService.getList().pipe(
-        flatMap((files) => {
+      return combineLatest([
+        this.fileService.getList(),
+        this.supportService.getCvxCodes(),
+        this.supportService.getDetections(),
+        this.supportService.getPatientTables(),
+        this.supportService.getVaccinationTables(),
+      ]).pipe(
+        flatMap(([files, cvx, detections, patientTables, vaccinationTables]) => {
           return [
-            new LoadResourcesInRepository<IADFDescriptor>({
-              collections: [{
-                key: 'files',
-                values: files,
-              }]
+            new SetValue({
+              patientTables,
+              vaccinationTables,
+            }),
+            new LoadResourcesInRepository<IDetectionResource | ICvxResource | IADFDescriptor>({
+              collections: [
+                {
+                  key: 'files',
+                  values: files,
+                }, {
+                  key: 'detections',
+                  values: detections,
+                },
+                {
+                  key: 'cvx',
+                  values: cvx,
+                },
+              ]
             }),
             new LoadADFilesSuccess(files),
           ];

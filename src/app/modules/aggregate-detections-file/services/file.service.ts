@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message } from 'ngx-dam-framework';
 import { IADFDescriptor, IADFMetadata } from '../model/adf.model';
+import { IReportTemplateDescriptor } from '../../report-template/model/report-template.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,9 @@ export class FileService {
     return this.http.delete<Message<IADFMetadata>>(this.URL_PREFIX + '/' + id);
   }
 
+  templatesForFile(id: string): Observable<IReportTemplateDescriptor[]> {
+    return this.http.get<IReportTemplateDescriptor[]>('api/template/for/' + id);
+  }
 
   getFileMetadata(id: string): Observable<IADFMetadata> {
     return this.http.get<IADFMetadata>(this.URL_PREFIX + '/' + id);

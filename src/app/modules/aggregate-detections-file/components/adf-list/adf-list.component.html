@@ -33,7 +33,7 @@
         Size
       </th>
       <th style="vertical-align: middle;">Compatible With</th>
-      <th style="vertical-align: middle; width: 300px;">Actions</th>
+      <th style="vertical-align: middle; width: 390px;">Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
@@ -48,7 +48,7 @@
       <td>
         {{rowData.size }}
       </td>
-      <td>
+      <td style="display: flex; flex-direction: column; align-items: flex-start;">
         <ng-container *ngFor="let conf of rowData.compatibilities || []">
           <div class="badge cursor-pointer" style="background-color: rgb(235, 235, 235); font-size: initial; margin-top: 2px;" [routerLink]="['/', 'configurations', conf.id ]">
             <i class="fa fa-cog" style="color: blueviolet; margin-right: 5px;"></i>
@@ -63,14 +63,17 @@
       <td>
         <div style="width: 100%; height: 100%; display: flex; justify-content: flex-end;">
           <button class="btn btn-sm btn-dark" style="margin-right: 5px;"
-            [routerLink]="['/', 'adf', rowData.id, 'summary']"
-          >
+            [routerLink]="['/', 'adf', rowData.id, 'summary']">
             <i class="fa fa-file"></i>
             Summary
           </button>
-          <button class="btn btn-sm btn-primary"  style="margin-right: 5px;">
+          <button class="btn btn-sm btn-primary"  style="margin-right: 5px;" (click)="analyse(rowData.id)">
             <i class="fa fa-bar-chart"></i>
             Analyse
+          </button>
+          <button class="btn btn-sm btn-success"  style="margin-right: 5px;" (click)="query(rowData.id)">
+            <i class="fa fa-table"></i>
+            Query
           </button>
           <button class="btn btn-sm btn-danger" (click)="remove(rowData)">
             <i class="fa fa-trash"></i>

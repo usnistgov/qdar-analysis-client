@@ -12,7 +12,7 @@
       [id]="field + '-' + discrimator"
       [name]="field+ '-' + discrimator"
       type="text"
-      placeholder="Value"
+      [placeholder]="placeholder"
       class="form-control"
       [value]="value || ''"
       (input)="valueChange($event.target.value)"
@@ -28,7 +28,9 @@
       [id]="fieldInfo.id + '-' + discrimator"
       [name]="fieldInfo.id + '-' + discrimator"
       appendTo="body"
+      [showClear]="showClear"
       [ngModel]="value"
+      [placeholder]="placeholder"
       [style]="{ 'width' : '100%' }"
       (onChange)="valueChange($event.value)">
     </p-dropdown>

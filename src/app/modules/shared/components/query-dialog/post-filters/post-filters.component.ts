@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { QueryDialogTabComponent } from '../query-dialog-tab/query-dialog-tab.component';
 import { IDataViewQuery, Comparator } from '../../../../report-template/model/report-template.model';
 import { UserMessage, MessageType } from 'ngx-dam-framework';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './post-filters.component.html',
   styleUrls: ['./post-filters.component.scss']
 })
-export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery> implements OnInit, OnDestroy {
+export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery> implements OnInit, OnDestroy, OnChanges {
 
   comparatorOptions = [{
     label: 'Greater Than',
@@ -60,7 +60,7 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
       const sameObject = except === i;
       const sameKeySize = Object.keys(vMap).length === Object.keys(val).length;
       const fieldsMatch = !Object.keys(vMap).map((field) => {
-        return val[field] && vMap[field].value === val[field].value;
+        return !!val[field] && vMap[field].value === val[field].value;
       }).includes(false);
 
       return !sameObject && fieldsMatch && sameKeySize;
@@ -97,12 +97,26 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
     this.emitChange(this.value);
   }
 
-  ngOnDestroy() {
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['analysis'] && !changes['analysis'].isFirstChange()) {
+      this.value.filter.groups.values = [];
+      this.emitChange(this.value);
+    }
   }
 
   ngOnInit(): void {
-
+    this.vSub = this.form.valueChanges.pipe(
+      map(() => {
+        this.emitChange(this.value);
+      }),
+    ).subscribe();
   }
+
+  ngOnDestroy() {
+    if (this.vSub) {
+      this.vSub.unsubscribe();
+    }
+  }
+
 
 }

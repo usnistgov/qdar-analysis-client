@@ -90,6 +90,10 @@ export class FieldInputComponent implements ControlValueAccessor, OnInit {
   }
 
   @Input()
+  showClear: boolean;
+  @Input()
+  placeholder: string;
+  @Input()
   field: Field;
   @Input()
   id: string;

@@ -9,10 +9,11 @@ import { CoreEffects } from './store/core.effects';
 import { AdfListComponent } from './components/adf-list/adf-list.component';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { AdfSummaryComponent } from './components/adf-summary/adf-summary.component';
+import { AdfJobDialogComponent } from './components/adf-job-dialog/adf-job-dialog.component';
 
 
 @NgModule({
-  declarations: [AdfDashboardComponent, AdfUploadComponent, AdfListComponent, JobListComponent, AdfSummaryComponent],
+  declarations: [AdfDashboardComponent, AdfUploadComponent, AdfListComponent, JobListComponent, AdfSummaryComponent, AdfJobDialogComponent],
   imports: [
     CommonModule,
     AggregateDetectionsFileRoutingModule,
