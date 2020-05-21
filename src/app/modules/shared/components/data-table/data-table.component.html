@@ -12,6 +12,9 @@
   [resizableColumns]="true"
   [filterDelay]="0">
   <ng-template pTemplate="caption">
+    <div style="width: 100%; text-align: center; margin-bottom: 5px;">
+      {{table.caption}}
+    </div>
     <div class="input-group" style="margin-left: 5px; min-width: 300px;">
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -23,11 +26,14 @@
     <tr>
       <ng-container  *ngFor="let header of columns">
         <ng-container [ngSwitch]="header.type">
-          <th style="width: 260px;" [pSortableColumn]="header.key" pResizableColumn *ngSwitchCase="ColumnType.THRESHOLD">
+          <th style="width: 180px;" [pSortableColumn]="header.key" pResizableColumn *ngSwitchCase="ColumnType.THRESHOLD">
             {{ header.label }}
             <p-sortIcon [field]="header.key"></p-sortIcon>
           </th>
-          <th *ngSwitchCase="ColumnType.BAR">
+          <th *ngSwitchCase="ColumnType.BAR" style="width: 340px;">
+            {{ header.label }}
+          </th>
+          <th [pSortableColumn]="header.key" pResizableColumn *ngSwitchCase="ColumnType.VALUE" style="width: 250px;">
             {{ header.label }}
           </th>
           <th [pSortableColumn]="header.key" pResizableColumn *ngSwitchDefault>
@@ -64,13 +70,14 @@
               appendTo="body"
               [(ngModel)]="search.value.comparator"
               (ngModelChange)="filterValue(dt)"
-              placeholder="Comparator">
+              [style]="{'min-width' : '90px'}"
+              placeholder="CMP">
             </p-dropdown>
             <input pInputText
               class="form-control"
-              style="margin-left: 5px;"
+              style="margin-left: 5px; width: 70px;"
               type="number"
-              [placeholder]="'Percentage'"
+              [placeholder]="'%'"
               [(ngModel)]="search.value.value"
               (ngModelChange)="filterValue(dt)"
               placeholder="Percentage">
@@ -87,10 +94,10 @@
               name="thresholdf"
               appendTo="body"
               [showClear]="true"
-              [style]="{ 'width' : '100%' }"
+              [style]="{ 'flex-grow' : '1', 'min-width' : 'unset', 'width' : '100%' }"
               [(ngModel)]="search.threshold"
               (ngModelChange)="filterThreshold(dt)"
-              placeholder="Threshold Activation">
+              placeholder="Value">
             </p-dropdown>
           </div>
           <div *ngSwitchCase="ColumnType.BAR">
@@ -109,7 +116,7 @@
         'threshold-pass' : header.type === ColumnType.THRESHOLD && value.threshold && value.pass
       }">
         <div [ngSwitch]="header.type">
-          <div *ngSwitchCase="ColumnType.FIELD">
+          <div *ngSwitchCase="ColumnType.FIELD" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
             {{ value[header.key] }}
           </div>
           <div *ngSwitchCase="ColumnType.THRESHOLD">

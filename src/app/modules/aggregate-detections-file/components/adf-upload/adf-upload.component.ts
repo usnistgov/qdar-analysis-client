@@ -42,7 +42,7 @@ export class AdfUploadComponent implements OnInit {
       },
       (message) => {
         if (message.status === MessageType.SUCCESS) {
-          this.router.navigate(['/', 'files', 'dashboard']);
+          this.router.navigate(['/', 'adf', 'dashboard']);
         }
         return [];
       }

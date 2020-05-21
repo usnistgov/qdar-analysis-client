@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IFraction } from '../../../report-template/model/report.model';
+import { IFraction } from '../../../report/model/report.model';
 import { IThreshold, Comparator } from '../../../report-template/model/report-template.model';
 
 export interface IBarArea {

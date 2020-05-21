@@ -145,6 +145,10 @@ dam-fullscreen-button button {
   cursor: not-allowed !important;
 }
 
+.no-pad {
+  padding: 0 !important;
+}
+
 .ngx-contextmenu .disabled a {
   cursor: not-allowed !important;
   color: gray !important;

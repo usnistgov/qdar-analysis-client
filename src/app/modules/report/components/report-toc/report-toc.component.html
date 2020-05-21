@@ -1,0 +1,23 @@
+<div class="side-bar">
+  <div class="buttons">
+    <dam-side-bar-toggle></dam-side-bar-toggle>
+  </div>
+  <div class="filter">
+    <div class="input-group" style="margin-left: 5px; min-width: 400px;">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-filter"></i></span>
+      </div>
+      <input type="text" class="form-control" placeholder="filter" aria-label="filter">
+    </div>
+  </div>
+  <div class="list">
+    <div style="background-color: white; flex-grow: 1;">
+      <tree-root [nodes]="nodes" [options]="options">
+        <ng-template #treeNodeTemplate let-node let-index="index">
+          <span>{{ node.data.path }}. {{ node.data.header }} <i *ngIf="node.data.warning" class="fa fa-warning" style="color: red;" pTooltip="Some values violate threshold" ></i> </span>
+        </ng-template>
+      </tree-root>
+    </div>
+  </div>
+</div>
+

@@ -20,6 +20,10 @@ import { ConfigurationService } from '../../configuration/services/configuration
 import { IConfigurationDescriptor } from '../../configuration/model/configuration.model';
 import { SupportDataService } from '../../shared/services/support-data.service';
 import { IDetectionResource, ICvxResource } from '../../shared/model/public.model';
+import { AnalysisService } from '../../shared/services/analysis.service';
+import { IAnalysisJob } from '../../report/model/report.model';
+
+type Resources = IDetectionResource | ICvxResource | IADFDescriptor | IAnalysisJob;
 
 @Injectable()
 export class CoreEffects {
@@ -34,14 +38,15 @@ export class CoreEffects {
         this.supportService.getDetections(),
         this.supportService.getPatientTables(),
         this.supportService.getVaccinationTables(),
+        this.analysisService.getJobs(),
       ]).pipe(
-        flatMap(([files, cvx, detections, patientTables, vaccinationTables]) => {
+        flatMap(([files, cvx, detections, patientTables, vaccinationTables, jobs]) => {
           return [
             new SetValue({
               patientTables,
               vaccinationTables,
             }),
-            new LoadResourcesInRepository<IDetectionResource | ICvxResource | IADFDescriptor>({
+            new LoadResourcesInRepository<Resources>({
               collections: [
                 {
                   key: 'files',
@@ -54,6 +59,10 @@ export class CoreEffects {
                   key: 'cvx',
                   values: cvx,
                 },
+                {
+                  key: 'jobs',
+                  values: jobs,
+                }
               ]
             }),
             new LoadADFilesSuccess(files),
@@ -106,6 +115,7 @@ export class CoreEffects {
   constructor(
     private fileService: FileService,
     private store: Store<any>,
+    private analysisService: AnalysisService,
     private helper: RxjsStoreHelperService,
     private messageService: MessageService,
     private supportService: SupportDataService,

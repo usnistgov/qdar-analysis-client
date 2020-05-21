@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>Start Analysis Job</h2>
 <form>
   <div class="form-group">
-    <label for="name"><strong>Analysis Job Name</strong></label>
+    <label for="name"><strong>Report Name</strong></label>
     <input type="text" placeholder="Name" class="form-control" name="name" id="name" [(ngModel)]="jobName" required>
   </div>
   <div class="form-group" >
-    <label for="configuration"><strong>Configuration</strong></label>
+    <label for="templates"><strong>Template</strong></label>
     <p-dropdown
      *ngIf="templates.length > 0"
       name="templates"
@@ -15,7 +15,6 @@
       [style]="{ 'width' : '100%' }"
       required
       appendTo="body">
-
     <ng-template let-template pTemplate="selectedItem">
       <app-descriptor-display [descriptor]="template.label"></app-descriptor-display>
     </ng-template>

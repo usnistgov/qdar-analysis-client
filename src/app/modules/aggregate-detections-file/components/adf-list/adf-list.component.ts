@@ -3,9 +3,9 @@ import * as moment from 'moment';
 import { IADFDescriptor } from '../../model/adf.model';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, concatMap, flatMap, take } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, resultMemoize } from '@ngrx/store';
 import { selectFiles } from '../../store/core.selectors';
-import { RxjsStoreHelperService, DeleteResourcesFromCollection, MessageType, ConfirmDialogComponent } from 'ngx-dam-framework';
+import { RxjsStoreHelperService, DeleteResourcesFromCollection, MessageType, ConfirmDialogComponent, InsertResourcesInCollection } from 'ngx-dam-framework';
 import { FileService } from '../../services/file.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AdfJobDialogComponent } from '../adf-job-dialog/adf-job-dialog.component';
@@ -15,6 +15,8 @@ import { selectPatientTables, selectVaccinationTables, selectAllDetections, sele
 import { ValuesService } from '../../../shared/services/values.service';
 import { ReportTemplateService } from '../../../report-template/services/report-template.service';
 import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
+import { Router } from '@angular/router';
+import { DataTableDialogComponent } from '../../../shared/components/data-table-dialog/data-table-dialog.component';
 
 @Component({
   selector: 'app-adf-list',
@@ -31,6 +33,7 @@ export class AdfListComponent implements OnInit {
     private analysisService: AnalysisService,
     private rt: ReportTemplateService,
     private valueService: ValuesService,
+    private router: Router,
     private dialog: MatDialog,
     private fileService: FileService,
   ) {
@@ -80,7 +83,7 @@ export class AdfListComponent implements OnInit {
             if (data) {
               return this.analysisService.executeQuery(fileId, data).pipe(
                 map((result) => {
-                  this.dialog.open(DataTableComponent, {
+                  this.dialog.open(DataTableDialogComponent, {
                     minWidth: '70vw',
                     maxWidth: '93vw',
                     maxHeight: '95vh',
@@ -108,10 +111,33 @@ export class AdfListComponent implements OnInit {
             templates,
           }
         }).afterClosed().pipe(
-          map((value) => {
+          flatMap((value) => {
             if (value) {
-              console.log(value);
+              return this.helper.getMessageAndHandle(
+                this.store,
+                () => {
+                  return this.analysisService.submitJob({
+                    name: value.name,
+                    templateId: value.templateId,
+                    adfId: id,
+                  });
+                },
+                (message) => {
+                  if (message.status === MessageType.SUCCESS) {
+                    this.router.navigate(['/', 'adf', 'dashboard', 'jobs']);
+                    return [
+                      new InsertResourcesInCollection({
+                        key: 'jobs',
+                        values: [message.data]
+                      })
+                    ];
+                  } else {
+                    return [];
+                  }
+                }
+              );
             }
+            return of();
           }),
         );
       }),

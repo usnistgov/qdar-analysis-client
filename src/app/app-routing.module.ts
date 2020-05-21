@@ -38,6 +38,12 @@ const routes: Routes = [
     ),
   },
   {
+    path: 'report',
+    loadChildren: () => import('./modules/report/report.module').then(
+      m => m.ReportModule
+    ),
+  },
+  {
     path: 'error',
     component: ErrorPageComponent,
   }

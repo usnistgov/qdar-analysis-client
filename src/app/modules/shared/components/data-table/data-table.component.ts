@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { IDataTable, IFraction } from '../../../report-template/model/report.model';
+import { IDataTable, IFraction } from '../../../report/model/report.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Labelizer } from '../../services/values.service';
 import { Field, AnalysisType } from '../../../report-template/model/analysis.values';
@@ -66,15 +66,15 @@ export class DataTableComponent implements OnInit {
   }];
 
   comparatorOptions = [{
-    label: 'Greater Than',
+    label: 'GT',
     value: Comparator.GT,
   },
   {
-    label: 'Lower Than',
+    label: 'LT',
     value: Comparator.LT,
   },
   {
-    label: 'Equals',
+    label: 'EQ',
     value: Comparator.EQ,
   }];
   search: {
@@ -97,12 +97,7 @@ export class DataTableComponent implements OnInit {
       }
     };
 
-  constructor(
-    public dialogRef: MatDialogRef<DataTableComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-    this.table = data.table;
-    this.labelizer = data.labelizer;
+  constructor() {
   }
 
   valueFilterIsSet(): boolean {

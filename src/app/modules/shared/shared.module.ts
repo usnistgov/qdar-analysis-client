@@ -33,6 +33,10 @@ import { PostFiltersComponent } from './components/query-dialog/post-filters/pos
 import { AccordionModule } from 'primeng/accordion';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { VisualBarComponent } from './components/visual-bar/visual-bar.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { QueryDisplayComponent } from './components/query-display/query-display.component';
+import { DataTableDialogComponent } from './components/data-table-dialog/data-table-dialog.component';
+import { ScrollToDirective } from './directives/scroll-to.directive';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,9 @@ import { VisualBarComponent } from './components/visual-bar/visual-bar.component
     PostFiltersComponent,
     DataTableComponent,
     VisualBarComponent,
+    QueryDisplayComponent,
+    DataTableDialogComponent,
+    ScrollToDirective,
   ],
   imports: [
     CommonModule,
@@ -72,7 +79,7 @@ import { VisualBarComponent } from './components/visual-bar/visual-bar.component
     TabViewModule,
     DragDropModule,
     AccordionModule,
-
+    TooltipModule,
   ],
   exports: [
     // Modules,
@@ -91,7 +98,8 @@ import { VisualBarComponent } from './components/visual-bar/visual-bar.component
     MatDialogModule,
     DragDropModule,
     AccordionModule,
-
+    TooltipModule,
+    TabViewModule,
     // Components,
     AgeGroupsComponent,
     DetectionsListComponent,
@@ -104,6 +112,9 @@ import { VisualBarComponent } from './components/visual-bar/visual-bar.component
     QuerySelectorComponent,
     DataTableComponent,
     VisualBarComponent,
+    QueryDisplayComponent,
+    DataTableDialogComponent,
+    ScrollToDirective,
 
   ]
 })
