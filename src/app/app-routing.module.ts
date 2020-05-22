@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from 'ngx-dam-framework';
+import { LoginComponent, AuthenticatedGuard, NotAuthenticatedGuard } from 'ngx-dam-framework';
 import { HomeComponent } from './modules/core/components/home/home.component';
 import { ErrorPageComponent } from './modules/core/components/error-page/error-page.component';
 
@@ -13,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [NotAuthenticatedGuard],
   },
   {
     path: 'home',
@@ -24,24 +25,35 @@ const routes: Routes = [
     loadChildren: () => import('./modules/configuration/configuration.module').then(
       m => m.ConfigurationModule
     ),
+    canActivate: [AuthenticatedGuard],
   },
   {
     path: 'adf',
     loadChildren: () => import('./modules/aggregate-detections-file/aggregate-detections-file.module').then(
       m => m.AggregateDetectionsFileModule
     ),
+    canActivate: [AuthenticatedGuard],
   },
   {
     path: 'report-templates',
     loadChildren: () => import('./modules/report-template/report-template.module').then(
       m => m.ReportTemplateModule
     ),
+    canActivate: [AuthenticatedGuard],
   },
   {
     path: 'report',
     loadChildren: () => import('./modules/report/report.module').then(
       m => m.ReportModule
     ),
+    canActivate: [AuthenticatedGuard],
+  },
+  {
+    path: 'facility',
+    loadChildren: () => import('./modules/facility/facility.module').then(
+      m => m.FacilityModule
+    ),
+    canActivate: [AuthenticatedGuard],
   },
   {
     path: 'error',

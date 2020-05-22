@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TemplatesListComponent } from './components/templates-list/templates-list.component';
 import { LoadReportTemplates, CoreActionTypes, LoadReportTemplate, OpenReportTemplateMetadata, OpenReportTemplateSection } from './store/core.actions';
-import { DataLoaderGuard, AuthenticatedGuard, DamWidgetRoute, EditorActivateGuard, EditorDeactivateGuard } from 'ngx-dam-framework';
+import { DataLoaderGuard, DamWidgetRoute, EditorActivateGuard, EditorDeactivateGuard } from 'ngx-dam-framework';
 import { RT_WIDGET_ID, ReportTemplateWidgetComponent } from './components/report-template-widget/report-template-widget.component';
 import { RtMetadataEditorComponent, RT_METADATA_EDITOR_METADATA } from './components/rt-metadata-editor/rt-metadata-editor.component';
 import { RT_SECTION_NARRATIVE_EDITOR_METADATA, RtSectionNarrativeEditorComponent } from './components/rt-section-narrative-editor/rt-section-narrative-editor.component';
@@ -24,7 +24,6 @@ const routes: Routes = [
       redirectTo: ['/', 'error'],
     },
     canActivate: [
-      AuthenticatedGuard,
       DataLoaderGuard,
     ],
   },
@@ -38,9 +37,6 @@ const routes: Routes = [
       failureAction: CoreActionTypes.LoadReportTemplateFailure,
       redirectTo: ['error'],
       component: ReportTemplateWidgetComponent,
-    }, {
-      canActivate: [AuthenticatedGuard],
-      canDeactivate: [],
     }),
     children: [
       {

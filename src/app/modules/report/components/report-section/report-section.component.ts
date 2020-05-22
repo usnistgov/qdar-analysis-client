@@ -28,6 +28,9 @@ export class ReportSectionComponent implements OnInit {
   editMode: boolean;
   pval: IReportSectionResult;
 
+  @Input()
+  viewOnly: boolean;
+
   constructor() {
     this.valueChange = new EventEmitter();
   }

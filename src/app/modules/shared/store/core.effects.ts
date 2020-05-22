@@ -25,6 +25,10 @@ export class CoreEffects {
           this.router.navigate(['/', 'report-templates', ...action.payload.id ? [action.payload.id] : []]);
           return of();
 
+        case EntityType.FACILITY:
+          this.router.navigate(['/', 'facility', ...action.payload.id ? [action.payload.id] : []]);
+          return of();
+
         default:
           return [
             this.messageService.userMessageToAction(new UserMessage(MessageType.FAILED, 'Can\'t go to ' + action.payload.type)),

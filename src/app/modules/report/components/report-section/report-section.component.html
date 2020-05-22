@@ -3,7 +3,7 @@
     <h5>{{value.path}}. {{value.header}} <i *ngIf="value.thresholdViolation" class="fa fa-warning" style="color: red;" pTooltip="Some values violate threshold" ></i> </h5>
   </div>
 
-  <p [innerHTML]="value.text"></p>
+  <div style="padding: 10px;" [innerHTML]="value.text"></div>
   <p-tabView *ngFor="let data of value.data">
     <p-tabPanel header="Data Analysis" headerStyleClass="valid-tab">
       <app-data-table [table]="data" [labelizer]="labelizer"></app-data-table>
@@ -13,8 +13,8 @@
     </p-tabPanel>
   </p-tabView>
   <div style="margin : 3.5px;">
-    <div *ngIf="!editMode">
-      <div style="display: flex; justify-content: center; width: 100%; margin-top: 5px;" *ngIf="!value.comment">
+    <div *ngIf="!editMode || viewOnly">
+      <div style="display: flex; justify-content: center; width: 100%; margin-top: 5px;" *ngIf="!value.comment && !viewOnly">
         <button class="btn btn-sm btn-secondary" (click)="comment()" >
           <i class="fa fa-plus"></i> Comment
         </button>
@@ -22,7 +22,7 @@
       <div *ngIf="value.comment">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 10px;">
           <h5 class="title-text">Comments <i class="fa fa-comment-o"></i></h5>
-          <button class="btn btn-sm btn-primary" (click)="comment()" >
+          <button class="btn btn-sm btn-primary" (click)="comment()" *ngIf="!viewOnly" >
             <i class="fa fa-pencil"></i> Edit Comment
           </button>
         </div>
@@ -30,7 +30,7 @@
         <div style="margin-top: 10px; background-color: #f7fbff; padding: 10px; border: 1px solid #eeeeee;"  [innerHTML]="value.comment"></div>
       </div>
     </div>
-    <div *ngIf="editMode">
+    <div *ngIf="editMode && !viewOnly">
       <p-editor name="comments" id="comments" [(ngModel)]="value.comment" (ngModelChange)="commentChange()" [style]="{'height':'130px'}"></p-editor>
       <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 5px;">
         <button class="btn btn-sm btn-success" (click)="comment()" >
@@ -41,4 +41,4 @@
   </div>
 </div>
 
-<app-report-section *ngFor="let section of value.children; let i = index" [value]="section" [labelizer]="labelizer" (valueChange)="childChange($event, i)" ></app-report-section>
+<app-report-section [viewOnly]="viewOnly" *ngFor="let section of value.children; let i = index" [value]="section" [labelizer]="labelizer" (valueChange)="childChange($event, i)" ></app-report-section>

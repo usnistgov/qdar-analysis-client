@@ -5,7 +5,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { selectRouterURL } from 'ngx-dam-framework';
+import { selectRouterURL, selectIsAdmin } from 'ngx-dam-framework';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +15,7 @@ import { selectRouterURL } from 'ngx-dam-framework';
 export class HeaderComponent implements OnInit {
 
   isAdf: Observable<boolean>;
+  isAdmin$: Observable<boolean>;
 
   constructor(private store: Store<any>) {
     this.isAdf = store.select(selectRouterURL).pipe(
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
         },
       ),
     );
+    this.isAdmin$ = this.store.select(selectIsAdmin);
   }
 
   ngOnInit(): void {

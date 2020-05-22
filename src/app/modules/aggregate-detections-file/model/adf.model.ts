@@ -12,6 +12,7 @@ export interface IADFDescriptor extends IDamResource {
   uploadedOn: Date;
   size: string;
   compatibilities: IConfigurationDescriptor[];
+  facilityId: string;
 }
 
 export interface IADFMetadata extends IDamResource {

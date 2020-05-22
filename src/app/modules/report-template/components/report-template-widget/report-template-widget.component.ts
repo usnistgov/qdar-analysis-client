@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, combineLatest } from 'rxjs';
 import { IReportTemplate, IReportSection } from '../../model/report-template.model';
-import { selectReportTemplate, selectTableOfContentIsChanged } from '../../store/core.selectors';
+import { selectReportTemplate, selectTableOfContentIsChanged, selectRtIsViewOnly } from '../../store/core.selectors';
 import { map } from 'rxjs/operators';
 
 export const RT_WIDGET_ID = 'RT_WIDGET_ID';
@@ -22,12 +22,14 @@ export class ReportTemplateWidgetComponent extends DamWidgetComponent implements
   template$: Observable<IReportTemplate>;
   active$: Observable<IWorkspaceActive>;
   sections$: Observable<IReportSection[]>;
+  viewOnly$: Observable<boolean>;
 
   constructor(
     store: Store<any>,
     dialog: MatDialog,
   ) {
     super(RT_WIDGET_ID, store, dialog);
+    this.viewOnly$ = store.select(selectRtIsViewOnly);
     this.template$ = store.select(selectReportTemplate);
     this.active$ = this.store.select(selectWorkspaceActive);
     this.sections$ = this.template$.pipe(

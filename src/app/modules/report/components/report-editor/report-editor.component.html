@@ -1,4 +1,4 @@
 <div *ngIf="report" id="report_container"  >
-  <div [innerHTML]="report.description"></div>
-  <app-report-section *ngFor="let section of report.sections; let i = index" [value]="section" [labelizer]="labelizer$ | async" (valueChange)="childChange($event, i)" ></app-report-section>
+  <div style="padding: 10px;" [innerHTML]="report.description"></div>
+  <app-report-section [viewOnly]="viewOnly$ | async" *ngFor="let section of report.sections; let i = index" [value]="section" [labelizer]="labelizer$ | async" (valueChange)="childChange($event, i)" ></app-report-section>
 </div>

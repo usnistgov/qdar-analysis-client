@@ -17,14 +17,10 @@ export class RtSideBarComponent implements OnInit, OnDestroy {
 
   @Input()
   sections: IReportSection[];
-  options: ITreeOptions;
-
-  constructor(
-    private store: Store<any>,
-    private reportTemplateService: ReportTemplateService,
-  ) {
+  @Input()
+  set viewOnly(vo: boolean) {
     this.options = {
-      allowDrag: true,
+      allowDrag: !vo,
       actionMapping: {
         mouse: {
           drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }) => {
@@ -48,6 +44,14 @@ export class RtSideBarComponent implements OnInit, OnDestroy {
         }
       }
     };
+  }
+  options: ITreeOptions;
+
+  constructor(
+    private store: Store<any>,
+    private reportTemplateService: ReportTemplateService,
+  ) {
+
   }
 
   createNewSection(parent?: string) {

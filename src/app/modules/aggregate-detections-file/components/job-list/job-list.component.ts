@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, interval, BehaviorSubject, Subscription } from 'rxjs';
 import { IAnalysisJob } from 'src/app/modules/report/model/report.model';
 import { Store } from '@ngrx/store';
-import { selectJobs } from '../../store/core.selectors';
+import { selectJobs, selectCurrentFacility } from '../../store/core.selectors';
 import { ReportTemplateService } from '../../../report-template/services/report-template.service';
 import { AnalysisService } from '../../../shared/services/analysis.service';
-import { switchMap, tap, flatMap, map, concatMap } from 'rxjs/operators';
+import { switchMap, tap, flatMap, map, concatMap, take } from 'rxjs/operators';
 import { tick } from '@angular/core/testing';
 import { InsertResourcesInCollection, ConfirmDialogComponent, RxjsStoreHelperService, MessageType, DeleteResourcesFromCollection } from 'ngx-dam-framework';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,6 +19,10 @@ export class JobListComponent implements OnInit, OnDestroy {
 
   jobs$: Observable<IAnalysisJob[]>;
   refreshRateOptions = [
+    {
+      label: '2s',
+      value: 2000,
+    },
     {
       label: '5s',
       value: 5000,
@@ -40,7 +44,7 @@ export class JobListComponent implements OnInit, OnDestroy {
       value: 600000,
     },
   ];
-  rate = new BehaviorSubject(10000);
+  rate = new BehaviorSubject(2000);
   referesh: Subscription;
 
   constructor(
@@ -98,13 +102,18 @@ export class JobListComponent implements OnInit, OnDestroy {
       switchMap((rate) => {
         return interval(rate).pipe(
           flatMap(() => {
-            return this.analysisService.getJobs().pipe(
-              map((jobs) => {
-                this.store.dispatch(new InsertResourcesInCollection({
-                  key: 'jobs',
-                  values: jobs,
-                }));
-              })
+            return this.store.select(selectCurrentFacility).pipe(
+              take(1),
+              flatMap((facility) => {
+                return (facility === 'local' ? this.analysisService.getJobs() : this.analysisService.getJobsByFacility(facility)).pipe(
+                  map((jobs) => {
+                    this.store.dispatch(new InsertResourcesInCollection({
+                      key: 'jobs',
+                      values: jobs,
+                    }));
+                  }),
+                );
+              }),
             );
           })
         );

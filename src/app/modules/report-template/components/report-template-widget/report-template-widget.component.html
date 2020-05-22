@@ -32,6 +32,6 @@
   </ng-template>
 
   <ng-template #sideBar>
-    <app-rt-side-bar [sections]="sections$ | async" ></app-rt-side-bar>
+    <app-rt-side-bar [viewOnly]="viewOnly$ | async" [sections]="sections$ | async" ></app-rt-side-bar>
   </ng-template>
 </dam-layout>

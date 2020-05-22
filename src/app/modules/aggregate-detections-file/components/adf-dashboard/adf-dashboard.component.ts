@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectFiles } from '../../store/core.selectors';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { IFacilityDescriptor } from 'src/app/modules/facility/model/facility.model';
+import { selectFacilityList, selectReportsNumber, selectCurrentFacility } from '../../store/core.selectors';
 
 @Component({
   selector: 'app-adf-dashboard',
@@ -10,8 +11,14 @@ import { map } from 'rxjs/operators';
 })
 export class AdfDashboardComponent implements OnInit {
 
-  constructor(private store: Store<any>) {
+  facilities$: Observable<IFacilityDescriptor[]>;
+  reportNumbers$: Observable<number>;
+  facility$: Observable<string>;
 
+  constructor(private store: Store<any>) {
+    this.facilities$ = store.select(selectFacilityList);
+    this.reportNumbers$ = this.store.select(selectReportsNumber);
+    this.facility$ = this.store.select(selectCurrentFacility);
   }
 
   ngOnInit(): void {

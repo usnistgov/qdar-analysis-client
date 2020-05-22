@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Message } from 'ngx-dam-framework';
 import { IADFDescriptor, IADFMetadata } from '../model/adf.model';
 import { IReportTemplateDescriptor } from '../../report-template/model/report-template.model';
+import { IFacilityDescriptor } from '../../facility/model/facility.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,16 @@ export class FileService {
 
   constructor(private http: HttpClient) { }
 
+  getFacilitiesForUser(): Observable<IFacilityDescriptor[]> {
+    return this.http.get<IFacilityDescriptor[]>(this.URL_PREFIX + '/facilities');
+  }
+
   getList(): Observable<IADFDescriptor[]> {
     return this.http.get<IADFDescriptor[]>(this.URL_PREFIX);
+  }
+
+  getListByFacility(id: string): Observable<IADFDescriptor[]> {
+    return this.http.get<IADFDescriptor[]>(this.URL_PREFIX + 'facility/' + id);
   }
 
   deleteFile(id: string): Observable<Message<IADFMetadata>> {

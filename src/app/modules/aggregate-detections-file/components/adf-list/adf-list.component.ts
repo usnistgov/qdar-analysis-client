@@ -3,9 +3,17 @@ import * as moment from 'moment';
 import { IADFDescriptor } from '../../model/adf.model';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map, concatMap, flatMap, take } from 'rxjs/operators';
-import { Store, resultMemoize } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { selectFiles } from '../../store/core.selectors';
-import { RxjsStoreHelperService, DeleteResourcesFromCollection, MessageType, ConfirmDialogComponent, InsertResourcesInCollection } from 'ngx-dam-framework';
+import {
+  RxjsStoreHelperService,
+  DeleteResourcesFromCollection,
+  MessageType,
+  ConfirmDialogComponent,
+  InsertResourcesInCollection,
+  selectIsAdmin,
+  selectUsername,
+} from 'ngx-dam-framework';
 import { FileService } from '../../services/file.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AdfJobDialogComponent } from '../adf-job-dialog/adf-job-dialog.component';
@@ -13,10 +21,9 @@ import { AnalysisService } from '../../../shared/services/analysis.service';
 import { QueryDialogComponent } from '../../../shared/components/query-dialog/query-dialog.component';
 import { selectPatientTables, selectVaccinationTables, selectAllDetections, selectAllCvx } from '../../../shared/store/core.selectors';
 import { ValuesService } from '../../../shared/services/values.service';
-import { ReportTemplateService } from '../../../report-template/services/report-template.service';
-import { DataTableComponent } from '../../../shared/components/data-table/data-table.component';
 import { Router } from '@angular/router';
 import { DataTableDialogComponent } from '../../../shared/components/data-table-dialog/data-table-dialog.component';
+import { ReportTemplateService } from '../../../report-template/services/report-template.service';
 
 @Component({
   selector: 'app-adf-list',
@@ -26,6 +33,9 @@ import { DataTableDialogComponent } from '../../../shared/components/data-table-
 export class AdfListComponent implements OnInit {
 
   files$: Observable<IADFDescriptor[]>;
+  isAdmin$: Observable<boolean>;
+  username$: Observable<string>;
+  userInfo$: Observable<{ isAdmin: boolean, username: string }>;
 
   constructor(
     private store: Store<any>,
@@ -37,6 +47,20 @@ export class AdfListComponent implements OnInit {
     private dialog: MatDialog,
     private fileService: FileService,
   ) {
+    this.isAdmin$ = store.select(selectIsAdmin);
+    this.username$ = store.select(selectUsername);
+    this.userInfo$ = combineLatest([
+      this.isAdmin$,
+      this.username$,
+    ]).pipe(
+      map(([isAdmin, username]) => {
+        return {
+          isAdmin,
+          username,
+        };
+      })
+    );
+
     this.files$ = this.store.select(selectFiles).pipe(
       map((list) => {
         return [
@@ -103,8 +127,8 @@ export class AdfListComponent implements OnInit {
     ).subscribe();
   }
 
-  analyse(id: string) {
-    this.fileService.templatesForFile(id).pipe(
+  analyse(adf: IADFDescriptor) {
+    this.fileService.templatesForFile(adf.id).pipe(
       flatMap((templates) => {
         return this.dialog.open(AdfJobDialogComponent, {
           data: {
@@ -119,12 +143,12 @@ export class AdfListComponent implements OnInit {
                   return this.analysisService.submitJob({
                     name: value.name,
                     templateId: value.templateId,
-                    adfId: id,
+                    adfId: adf.id,
                   });
                 },
                 (message) => {
                   if (message.status === MessageType.SUCCESS) {
-                    this.router.navigate(['/', 'adf', 'dashboard', 'jobs']);
+                    this.router.navigate(['/', 'adf', 'dashboard', adf.facilityId ? adf.facilityId : 'local', 'jobs']);
                     return [
                       new InsertResourcesInCollection({
                         key: 'jobs',

@@ -8,3 +8,10 @@ export const selectReport = createSelector(
     return payload;
   }
 );
+
+export const selectReportIsViewOnly = createSelector(
+  selectReport,
+  (payload: IReport) => {
+    return payload.viewOnly;
+  }
+);

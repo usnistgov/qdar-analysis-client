@@ -10,10 +10,19 @@ import { AdfListComponent } from './components/adf-list/adf-list.component';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { AdfSummaryComponent } from './components/adf-summary/adf-summary.component';
 import { AdfJobDialogComponent } from './components/adf-job-dialog/adf-job-dialog.component';
+import { ReportListComponent } from './components/report-list/report-list.component';
 
 
 @NgModule({
-  declarations: [AdfDashboardComponent, AdfUploadComponent, AdfListComponent, JobListComponent, AdfSummaryComponent, AdfJobDialogComponent],
+  declarations: [
+    AdfDashboardComponent,
+    AdfUploadComponent,
+    AdfListComponent,
+    JobListComponent,
+    AdfSummaryComponent,
+    AdfJobDialogComponent,
+    ReportListComponent
+  ],
   imports: [
     CommonModule,
     AggregateDetectionsFileRoutingModule,

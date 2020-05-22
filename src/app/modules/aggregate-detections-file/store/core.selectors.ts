@@ -2,7 +2,8 @@ import { createEntityAdapter, Dictionary } from '@ngrx/entity';
 import { IADFDescriptor, IADFMetadata } from '../model/adf.model';
 import { selectFromCollection, selectValue } from 'ngx-dam-framework';
 import { createSelector } from '@ngrx/store';
-import { IAnalysisJob } from '../../report/model/report.model';
+import { IAnalysisJob, IReportDescriptor } from '../../report/model/report.model';
+import { IFacilityDescriptor } from '../../facility/model/facility.model';
 
 const filesAdapter = createEntityAdapter<IADFDescriptor>();
 const filesSelectors = filesAdapter.getSelectors();
@@ -36,6 +37,31 @@ export const selectJobsById = createSelector(
   byId<IAnalysisJob>(),
 );
 
+const reportsAdapter = createEntityAdapter<IReportDescriptor>();
+const reportsSelectors = reportsAdapter.getSelectors();
+export const selectReportsRepo = selectFromCollection('reports');
+export const selectReportsEntities = createSelector(
+  selectReportsRepo,
+  reportsSelectors.selectEntities,
+);
+export const selectReports = createSelector(
+  selectReportsRepo,
+  reportsSelectors.selectAll,
+);
+export const selectReportsById = createSelector(
+  selectReportsEntities,
+  byId<IReportDescriptor>(),
+);
+
+export const selectReportsNumber = createSelector(
+  selectReports,
+  (reports) => {
+    return reports.length;
+  }
+);
+
+export const selectFacilityList = selectValue<IFacilityDescriptor[]>('facilityList');
+export const selectCurrentFacility = selectValue<string>('facility');
 
 export const selectOpenFileMetadata = selectValue<IADFMetadata>('file');
 function byId<T>() {

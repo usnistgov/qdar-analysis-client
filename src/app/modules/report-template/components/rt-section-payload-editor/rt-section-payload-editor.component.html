@@ -1,4 +1,4 @@
-<ng-template #headerControls>
+<ng-template #headerControls *ngIf="(viewOnly$ | async) === false">
   <button class="btn btn-sm btn-primary" (click)="createPayload()">
     <i class="fa fa-plus"></i>
     Add Data Table By Query
@@ -11,7 +11,7 @@
       <i *ngIf="!accordion[panelIndex]" class="fa fa-chevron-right" style="margin-left: 5px;" (click)="toggleAccordion(panelIndex)"></i>
       <div style="display: flex; align-items: center; justify-content: space-between; flex-grow: 1; margin-left: 15px;">
         <span>Data Query {{ query.caption ? ' - ' + query.caption : '' }} - {{nameOf(query.type)}}</span>
-        <div>
+        <div *ngIf="(viewOnly$ | async) === false">
           <button class="btn btn-sm btn-primary" (click)="editPayload(query, panelIndex)" >
             <i class="fa fa-pencil"></i>
           </button>

@@ -27,6 +27,7 @@ export class ReportTocComponent implements OnInit, AfterViewInit {
     top: number,
   }[] = [];
   container: HTMLElement;
+  thresholdFilter: boolean = null;
 
   @Input()
   set nodes(nodes: ITocNode[]) {
@@ -80,7 +81,7 @@ export class ReportTocComponent implements OnInit, AfterViewInit {
       tap((elm) => {
         const target = elm.target as HTMLElement;
         const soff = target.scrollTop;
-        if (this.container.scrollHeight - (soff + target.clientHeight) === 0) {
+        if (this.container.scrollHeight - (soff + target.clientHeight) === 0 && soff !== 0) {
           this.focusOn(this.offsets[size - 1].id);
         } else {
           const match = this.findMatch(soff);
@@ -90,6 +91,18 @@ export class ReportTocComponent implements OnInit, AfterViewInit {
         }
       })
     ).subscribe();
+  }
+
+  filterText(value) {
+    this.treeComponent.treeModel.filterNodes((node) => {
+      return node.data.path.includes(value) || node.data.header.includes(value);
+    });
+  }
+
+  filterThreshold(value) {
+    this.treeComponent.treeModel.filterNodes((node) => {
+      return value == null || node.data.warning === value;
+    });
   }
 
   focusOn(id: string) {
@@ -108,7 +121,7 @@ export class ReportTocComponent implements OnInit, AfterViewInit {
       }
       i++;
     }
-    return this.offsets[size - 1];
+    return this.offsets[0];
   }
 
   ngOnInit(): void {

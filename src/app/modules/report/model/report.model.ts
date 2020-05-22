@@ -1,10 +1,28 @@
-import { IReportTemplate, IReportSection, IDataViewQuery, IThreshold } from '../../report-template/model/report-template.model';
+import { IReportTemplate, IReportSection, IDataViewQuery, IThreshold, IReportTemplateDescriptor } from '../../report-template/model/report-template.model';
 import { Field } from '../../report-template/model/analysis.values';
 import { IDamResource } from 'ngx-dam-framework';
 import { EntityType } from '../../shared/model/entity.model';
+import { IConfigurationPayload } from '../../configuration/model/configuration.model';
+
+export interface IReportDescriptor extends IDamResource {
+  id: string;
+  name: string;
+  description: string;
+  owner: string;
+  lastUpdated: Date;
+  published: boolean;
+  type: EntityType.REPORT;
+  viewOnly: boolean;
+  configuration: IConfigurationPayload;
+  template: IReportTemplateDescriptor;
+  adfName: string;
+  publishDate: Date;
+  facilityId: string;
+}
 
 export interface IReport extends IReportTemplate {
   templateId: string;
+  facilityId: string;
   sections: IReportSectionResult[];
 }
 

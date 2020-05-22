@@ -9,7 +9,7 @@ import { Observable, combineLatest, Subscription, throwError } from 'rxjs';
 import { IReport, IReportSectionResult } from '../../model/report.model';
 import { selectAllDetections, selectAllCvx, selectPatientTables, selectVaccinationTables } from '../../../shared/store/core.selectors';
 import { map, tap, concatMap, take, flatMap, catchError } from 'rxjs/operators';
-import { selectReport } from '../../store/core.selectors';
+import { selectReport, selectReportIsViewOnly } from '../../store/core.selectors';
 import { ReportService } from '../../services/report.service';
 
 export const REPORT_EDITOR_METADATA: IEditorMetadata = {
@@ -28,6 +28,7 @@ export class ReportEditorComponent extends DamAbstractEditorComponent implements
   report: IReport;
   labelizer$: Observable<Labelizer>;
   wSub: Subscription;
+  viewOnly$: Observable<boolean>;
 
   constructor(
     store: Store<any>,
@@ -41,6 +42,7 @@ export class ReportEditorComponent extends DamAbstractEditorComponent implements
       actions$,
       store,
     );
+    this.viewOnly$ = this.store.select(selectReportIsViewOnly);
     this.labelizer$ = combineLatest([
       this.store.select(selectReport),
       this.store.select(selectAllDetections),

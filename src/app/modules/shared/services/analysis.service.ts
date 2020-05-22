@@ -26,6 +26,10 @@ export class AnalysisService {
     return this.http.get<IAnalysisJob[]>(this.PUBLIC + 'jobs');
   }
 
+  getJobsByFacility(facility: string): Observable<IAnalysisJob[]> {
+    return this.http.get<IAnalysisJob[]>(this.PUBLIC + 'jobs' + '/' + facility);
+  }
+
   removeJob(id: string): Observable<Message<IAnalysisJob>> {
     return this.http.delete<Message<IAnalysisJob>>(this.PUBLIC + 'job/' + id);
   }

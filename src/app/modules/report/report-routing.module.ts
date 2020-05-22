@@ -16,9 +16,6 @@ const routes: Routes = [{
     failureAction: CoreActionTypes.LoadReportFailure,
     redirectTo: ['error'],
     component: ReportWidgetComponent,
-  }, {
-    canActivate: [AuthenticatedGuard],
-    canDeactivate: [],
   }),
   children: [
     {

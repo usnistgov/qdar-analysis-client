@@ -6,4 +6,7 @@ export enum EntityType {
   TEMPLATE = 'TEMPLATE',
   SECTION = 'SECTION',
   JOB = 'JOB',
+  FACILITY = 'FACILITY',
+  USER = 'USER',
+  REPORT = 'REPORT',
 }

@@ -37,6 +37,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { QueryDisplayComponent } from './components/query-display/query-display.component';
 import { DataTableDialogComponent } from './components/data-table-dialog/data-table-dialog.component';
 import { ScrollToDirective } from './directives/scroll-to.directive';
+import { NameDialogComponent } from './components/name-dialog/name-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ScrollToDirective } from './directives/scroll-to.directive';
     QueryDisplayComponent,
     DataTableDialogComponent,
     ScrollToDirective,
+    NameDialogComponent,
   ],
   imports: [
     CommonModule,

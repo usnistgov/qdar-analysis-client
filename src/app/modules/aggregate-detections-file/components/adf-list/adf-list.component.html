@@ -6,6 +6,7 @@
 </div>
 
 <p-table
+  *ngIf="userInfo$ | async as userInfo"
   [value]="files$ | async"
   [paginator]="true"
   [rows]="10"
@@ -14,9 +15,13 @@
   [styleClass]="'table table-sm table-striped'">
   <ng-template pTemplate="header">
     <tr>
-      <th style="vertical-align: middle;" pSortableColumn="name">
+      <th style="vertical-align: middle; width: 240px;" pSortableColumn="name">
         Name
         <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th style="vertical-align: middle; width: 150px;" pSortableColumn="owner">
+        Uploaded By
+        <p-sortIcon field="owner"></p-sortIcon>
       </th>
       <th style="vertical-align: middle; width: 150px;" pSortableColumn="uploadedOn">
         Uploaded On
@@ -26,14 +31,14 @@
         Analysed On
         <p-sortIcon field="analysedOn"></p-sortIcon>
       </th>
-      <th style="vertical-align: middle; width: 200px;">
+      <th style="vertical-align: middle; width: 130px;">
         Age
       </th>
       <th style="vertical-align: middle; width: 100px;">
         Size
       </th>
       <th style="vertical-align: middle;">Compatible With</th>
-      <th style="vertical-align: middle; width: 390px;">Actions</th>
+      <th style="vertical-align: middle; width: 380px;">Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
@@ -42,6 +47,7 @@
         <i class="fa fa-file" style="color: crimson; margin-right: 10px;"></i>
         <strong>{{ rowData.name }}</strong>
       </td>
+      <td><i class="fa fa-user" style="color: blue;"></i> {{ rowData.owner }}</td>
       <td>{{ rowData.uploadedOn | date:'MM-dd-yyyy HH:mm' }}</td>
       <td>{{ rowData.analysedOn | date:'MM-dd-yyyy HH:mm'  }}</td>
       <td>{{ age(rowData.analysedOn) }}</td>
@@ -67,7 +73,7 @@
             <i class="fa fa-file"></i>
             Summary
           </button>
-          <button class="btn btn-sm btn-primary"  style="margin-right: 5px;" (click)="analyse(rowData.id)">
+          <button class="btn btn-sm btn-primary"  style="margin-right: 5px;" (click)="analyse(rowData)">
             <i class="fa fa-bar-chart"></i>
             Analyse
           </button>
@@ -75,7 +81,7 @@
             <i class="fa fa-table"></i>
             Query
           </button>
-          <button class="btn btn-sm btn-danger" (click)="remove(rowData)">
+          <button class="btn btn-sm btn-danger" (click)="remove(rowData)" *ngIf="userInfo.isAdmin || userInfo.username === rowData.owner">
             <i class="fa fa-trash"></i>
             Delete
           </button>

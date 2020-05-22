@@ -15,9 +15,6 @@ const routes: Routes = [
       failureAction: CoreActionTypes.RouteLoadConfigurationPageFailure,
       redirectTo: ['error'],
       component: ConfigurationWidgetComponent,
-    }, {
-      canActivate: [AuthenticatedGuard],
-      canDeactivate: [],
     }),
     children: [
       {

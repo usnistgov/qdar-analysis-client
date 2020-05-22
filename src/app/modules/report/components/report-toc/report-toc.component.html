@@ -1,13 +1,27 @@
 <div class="side-bar">
   <div class="buttons">
     <dam-side-bar-toggle></dam-side-bar-toggle>
+    <div>
+      <span> Threshold </span>
+      <div class="btn-group btn-group-toggle" ngbRadioGroup name="listType" [(ngModel)]="thresholdFilter" (ngModelChange)="filterThreshold($event)" style="border: 1px solid #dee2e6; border-radius: 3px;">
+        <label ngbButtonLabel class="btn-light btn-sm">
+          <input ngbButton type="radio" [value]="null"> All
+        </label>
+        <label ngbButtonLabel class="btn-light btn-sm">
+          <input ngbButton type="radio" [value]="true"> <span style="color: red;">Fail</span>
+        </label>
+        <label ngbButtonLabel class="btn-light btn-sm">
+          <input ngbButton type="radio" [value]="false"> <span style="color: green;">Pass</span>
+        </label>
+      </div>
+    </div>
   </div>
   <div class="filter">
     <div class="input-group" style="margin-left: 5px; min-width: 400px;">
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fa fa-filter"></i></span>
       </div>
-      <input type="text" class="form-control" placeholder="filter" aria-label="filter">
+      <input type="text" class="form-control" placeholder="filter" aria-label="filter" (input)="filterText($event.target.value)">
     </div>
   </div>
   <div class="list">
