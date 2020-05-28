@@ -10,7 +10,7 @@ import { EntityType } from '../../shared/model/entity.model';
 })
 export class ConfigurationService {
 
-  readonly URL_PREFIX = '/api/configuration/';
+  readonly URL_PREFIX = 'api/configuration/';
 
   constructor(private http: HttpClient) { }
 

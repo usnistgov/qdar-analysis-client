@@ -30,7 +30,8 @@
     </p-tabPanel>
     <p-tabPanel header="Post Process Row Filters"  [headerStyleClass]="!tabsValid.filters.valid ? 'invalid-tab' : 'valid-tab'">
       <app-post-filters
-        [(value)]="value"
+        [(value)]="value.filter"
+        [groupBy]="value.groupBy"
         (valid)="setValidStatus('filters', $event)"
         (messages)="setMessages('filters', $event)"
         [options]="options"

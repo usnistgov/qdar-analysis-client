@@ -10,10 +10,11 @@ import { ReportEditorComponent } from './components/report-editor/report-editor.
 import { ReportSectionComponent } from './components/report-section/report-section.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReportTocComponent } from './components/report-toc/report-toc.component';
+import { ReportFilterDialogComponent } from './components/report-filter-dialog/report-filter-dialog.component';
 
 
 @NgModule({
-  declarations: [ReportWidgetComponent, ReportEditorComponent, ReportSectionComponent, ReportTocComponent],
+  declarations: [ReportWidgetComponent, ReportEditorComponent, ReportSectionComponent, ReportTocComponent, ReportFilterDialogComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,

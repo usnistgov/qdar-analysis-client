@@ -117,7 +117,7 @@ import { NameDialogComponent } from './components/name-dialog/name-dialog.compon
     QueryDisplayComponent,
     DataTableDialogComponent,
     ScrollToDirective,
-
+    FieldInputComponent,
   ]
 })
 export class SharedModule { }

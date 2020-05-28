@@ -1,3 +1,5 @@
+<h2 mat-dialog-title> General Report Filter </h2>
+
 <mat-dialog-content>
   <form #form="ngForm">
     <div>
@@ -73,12 +75,12 @@
     </div>
     <div>
       <div class="form-group" style="border-bottom: 1px solid #cecece;">
-        <input type="checkbox" style="margin-right: 10px;" id="fieldv" name="fieldv" [(ngModel)]="value.groups.active" (ngModelChange)="triggerChange()">
+        <input type="checkbox" style="margin-right: 10px;" id="fieldv" name="fieldv" [(ngModel)]="value.fields.active" (ngModelChange)="triggerChange()">
         <label class="form-check-label" for="fieldv">Filter by group field values</label>
       </div>
-      <div class="form-group" style="display: flex; flex-direction: column; width: 100%;align-items: flex-start; overflow: scroll;" *ngIf="value.groups.active">
+      <div class="form-group" style="display: flex; flex-direction: column; width: 100%;align-items: flex-start; overflow: scroll;" *ngIf="value.fields.active">
         <div required class="btn-group btn-group-toggle" ngbRadioGroup style="border: 1px solid #dee2e6; border-radius: 3px; margin-bottom: 10px;"
-          id="keep" name="keep" [(ngModel)]="value.groups.keep" (ngModelChange)="triggerChange()">
+          id="keep" name="keep" [(ngModel)]="value.fields.keep" (ngModelChange)="triggerChange()">
           <label ngbButtonLabel class="btn-light btn-sm">
             <input ngbButton type="radio" [value]="true">Keep Only
           </label>
@@ -86,7 +88,42 @@
             <input ngbButton type="radio" [value]="false">Filter Out
           </label>
         </div>
-        <table class="table table-sm table-striped table-bordered">
+        <p-tabView>
+          <p-tabPanel *ngFor="let field of fields" [header]="field" [headerStyleClass]="!isValid(value.fields.fields[field]) ? 'invalid-tab' : 'valid-tab'">
+            <table class="table table-sm" style="margin: 0 !important;">
+              <thead>
+                <tr>
+                  <th style="text-align: center; vertical-align: middle;">
+                    <span>Values</span>
+                    <button class="btn btn-sm btn-primary pull-right"  style="margin-right: 5px;" (click)="addFieldValue(field)">
+                      <i class="fa fa-plus"></i>
+                      Add Value
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody style="background-color: #f4f4f4;">
+                <tr *ngFor="let container of value.fields.fields[field]; let iv = index" style="display: flex; align-items: center; padding-right: 4.8px;">
+                  <app-field-input
+                    [analysis]="analysis"
+                    [options]="options"
+                    [field]="field"
+                    [id]="iv + '-' + field"
+                    [name]="iv + '-' + field"
+                    [placeholder]="field"
+                    [(ngModel)]="container.value"
+                    required
+                    style="flex-grow: 1;"
+                  ></app-field-input>
+                  <button class="btn btn-sm btn-danger"  (click)="removeFieldValue(value.fields.fields[field], iv)">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </tr>
+              </tbody>
+            </table>
+          </p-tabPanel>
+        </p-tabView>
+        <!-- <table class="table table-sm table-striped table-bordered">
           <thead>
             <tr>
               <th style="width: 40px; text-align: center; vertical-align: middle;">
@@ -140,8 +177,12 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   </form>
 </mat-dialog-content>
+<mat-dialog-actions style="justify-content: flex-end;">
+  <button class="btn btn-sm btn-secondary" style="margin-right: 5px;" [mat-dialog-close]="" >Cancel</button>
+  <button class="btn btn-sm btn-success" [mat-dialog-close]="value" >Done</button>
+</mat-dialog-actions>

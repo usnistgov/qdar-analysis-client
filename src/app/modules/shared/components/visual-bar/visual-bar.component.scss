@@ -1,11 +1,13 @@
 .danger-zone {
   background-color: pink !important;
-  height: 100%;
 }
 
 .ok-zone {
   background-color: #ccfdcc !important;
-  height: 100%;
+}
+
+.neutral-zone {
+  background-color: aliceblue !important;
 }
 
 .danger-bar {
@@ -37,4 +39,5 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
 }

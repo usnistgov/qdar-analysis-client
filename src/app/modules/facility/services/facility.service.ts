@@ -14,7 +14,7 @@ export interface IAddMember {
 })
 export class FacilityService {
 
-  readonly URL_PREFIX = '/api/facility/';
+  readonly URL_PREFIX = 'api/facility/';
 
   constructor(private http: HttpClient) { }
 

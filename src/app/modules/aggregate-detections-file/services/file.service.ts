@@ -11,7 +11,7 @@ import { IFacilityDescriptor } from '../../facility/model/facility.model';
 })
 export class FileService {
 
-  readonly URL_PREFIX = '/api/adf/';
+  readonly URL_PREFIX = 'api/adf/';
 
   constructor(private http: HttpClient) { }
 

@@ -12,13 +12,15 @@ export class ReportSectionComponent implements OnInit {
 
   @Input()
   set value(v: IReportSectionResult) {
-    // console.log(v)
     this.pval = this.cloneAndChildren(v);
   }
 
   get value() {
     return this.pval;
   }
+
+  @Input()
+  filtered: IReportSectionResult;
 
   @Output()
   valueChange: EventEmitter<IReportSectionResult>;
@@ -41,7 +43,6 @@ export class ReportSectionComponent implements OnInit {
 
   childChange(child: IReportSectionResult, i: number) {
     const clone = this.cloneAndChildren(this.value);
-    console.log(clone, i);
     clone.children.splice(i, 1, this.cloneAndChildren(child));
     this.valueChange.emit(clone);
   }

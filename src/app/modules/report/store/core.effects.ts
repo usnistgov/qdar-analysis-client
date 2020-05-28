@@ -20,7 +20,7 @@ import { combineLatest } from 'rxjs';
 import { ReportService } from '../services/report.service';
 import { REPORT_WIDGET } from '../components/report-widget/report-widget.component';
 import { IDetectionResource, ICvxResource } from '../../shared/model/public.model';
-import { IReportSection } from '../../report-template/model/report-template.model';
+import { IReportSection, Comparator } from '../../report-template/model/report-template.model';
 import { handleError } from '../../shared/services/helper.functions';
 import { selectReport } from './core.selectors';
 
@@ -42,13 +42,46 @@ export class CoreEffects extends DamWidgetEffect {
     concatMap((action: OpenReportEditor) => {
       return this.store.select(selectReport).pipe(
         take(1),
-        map((report) => {
-          return new OpenEditor({
-            id: action.payload.id,
-            editor: action.payload.editor,
-            display: { name: report.name },
-            initial: report,
-          });
+        flatMap((report) => {
+          return [
+            new SetValue({
+              reportGeneralFilter: {
+                denominator: {
+                  active: false,
+                  value: 0,
+                  comparator: Comparator.GT,
+                },
+                percentage: {
+                  active: false,
+                  value: 0,
+                  comparator: Comparator.GT,
+                },
+                threshold: {
+                  active: false,
+                  pass: true,
+                },
+                fields: {
+                  keep: false,
+                  active: false,
+                  fields: {
+                    PROVIDER: [],
+                    AGE_GROUP: [],
+                    CODE: [],
+                    EVENT: [],
+                    GENDER: [],
+                    VACCINE_CODE: [],
+                    VACCINATION_YEAR: [],
+                  },
+                }
+              }
+            }),
+            new OpenEditor({
+              id: action.payload.id,
+              editor: action.payload.editor,
+              display: { name: report.name },
+              initial: report,
+            })
+          ];
         })
       );
     }),

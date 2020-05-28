@@ -18,6 +18,7 @@ export class VisualBarComponent implements OnInit {
 
   @Input()
   showValue: boolean;
+  hasThreshold;
 
   @Input()
   set value(data: { value: IFraction, threshold: IThreshold }) {
@@ -26,6 +27,7 @@ export class VisualBarComponent implements OnInit {
       comparator: Comparator.GT,
       value: 0,
     };
+    this.hasThreshold = !!data.threshold;
 
     this.start = {
       width: threshold.value,

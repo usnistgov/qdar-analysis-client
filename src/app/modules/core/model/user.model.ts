@@ -11,3 +11,13 @@ export interface IUserResource extends IDamResource {
   fullName: string;
   organization: string;
 }
+
+
+export interface IUserAccountRegister {
+  username: string;
+  email: string;
+  fullName: string;
+  organization: string;
+  password: string;
+  signedConfidentialityAgreement: boolean;
+}

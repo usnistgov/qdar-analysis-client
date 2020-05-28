@@ -4,7 +4,7 @@
   </div>
 
   <div style="padding: 10px;" [innerHTML]="value.text"></div>
-  <p-tabView *ngFor="let data of value.data">
+  <p-tabView *ngFor="let data of filtered ? filtered.data : value.data">
     <p-tabPanel header="Data Analysis" headerStyleClass="valid-tab">
       <app-data-table [table]="data" [labelizer]="labelizer"></app-data-table>
     </p-tabPanel>
@@ -41,4 +41,4 @@
   </div>
 </div>
 
-<app-report-section [viewOnly]="viewOnly" *ngFor="let section of value.children; let i = index" [value]="section" [labelizer]="labelizer" (valueChange)="childChange($event, i)" ></app-report-section>
+<app-report-section  [filtered]="filtered?.children[i]" [viewOnly]="viewOnly" *ngFor="let section of value.children; let i = index" [value]="section" [labelizer]="labelizer" (valueChange)="childChange($event, i)" ></app-report-section>

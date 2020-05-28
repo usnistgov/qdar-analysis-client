@@ -12,7 +12,7 @@
       [id]="field + '-' + discrimator"
       [name]="field+ '-' + discrimator"
       type="text"
-      [placeholder]="placeholder"
+      [placeholder]="placeholder || ''"
       class="form-control"
       [value]="value || ''"
       (input)="valueChange($event.target.value)"

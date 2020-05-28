@@ -8,9 +8,21 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { DamAuthenticationModule, DamMessagesModule } from 'ngx-dam-framework';
 import { CardModule } from 'primeng/card';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HomeComponent, ErrorPageComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    ErrorPageComponent,
+    RegistrationComponent,
+    ForgotPasswordComponent,
+    UserManagementComponent
+  ],
   imports: [
     CommonModule,
     CoreRoutingModule,
@@ -18,7 +30,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DamMessagesModule,
     NgbModule,
     CardModule,
+    SharedModule,
   ],
-  exports: [HeaderComponent, FooterComponent, HomeComponent, ErrorPageComponent],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    ErrorPageComponent,
+    RegistrationComponent,
+    ForgotPasswordComponent,
+    UserManagementComponent
+  ],
 })
 export class CoreModule { }

@@ -1,18 +1,19 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { QueryDialogTabComponent } from '../query-dialog-tab/query-dialog-tab.component';
-import { IDataViewQuery, Comparator } from '../../../../report-template/model/report-template.model';
+import { IDataViewQuery, Comparator, IQueryResultFilter } from '../../../../report-template/model/report-template.model';
 import { UserMessage, MessageType } from 'ngx-dam-framework';
 import { IFieldInputOptions } from '../../field-input/field-input.component';
 import { NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { Field } from '../../../../report-template/model/analysis.values';
 
 @Component({
   selector: 'app-post-filters',
   templateUrl: './post-filters.component.html',
   styleUrls: ['./post-filters.component.scss']
 })
-export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery> implements OnInit, OnDestroy, OnChanges {
+export class PostFiltersComponent extends QueryDialogTabComponent<IQueryResultFilter> implements OnInit, OnDestroy, OnChanges {
 
   comparatorOptions = [{
     label: 'Greater Than',
@@ -28,16 +29,18 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
   @Input()
   options: IFieldInputOptions;
   vSub: Subscription;
+  @Input()
+  groupBy: Field[];
 
   constructor() {
     super();
   }
 
-  validate(value) {
-    const hasEmptyRow = value.filter.groups.values.map((vMap) => this.isEmpty(vMap)).includes(true);
-    const hasDuplicateRow = value.filter.groups.values.map((vMap, i) => this.hasRow(vMap, i)).includes(true);
+  validate(value: IQueryResultFilter) {
+    const hasEmptyRow = value.groups.values.map((vMap) => this.isEmpty(vMap)).includes(true);
+    const hasDuplicateRow = value.groups.values.map((vMap, i) => this.hasRow(vMap, i)).includes(true);
     const formValid = this.form.valid;
-    const hasInvalidRow = hasEmptyRow && !value.filter.groups.keep;
+    const hasInvalidRow = hasEmptyRow && !value.groups.keep;
 
     return {
       status: !hasInvalidRow && !hasDuplicateRow && formValid,
@@ -48,7 +51,7 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
         ...hasDuplicateRow ? [
           new UserMessage(MessageType.FAILED, 'Current post process filter by group field values has duplicate filter row'),
         ] : [],
-        ...(this.value.filter.groups.keep && hasEmptyRow) ? [
+        ...(this.value.groups.keep && hasEmptyRow) ? [
           new UserMessage(MessageType.WARNING, 'Current post process filter by group field values configuration will keep all records'),
         ] : [],
       ]
@@ -56,7 +59,7 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
   }
 
   hasRow(vMap: any, except: number): boolean {
-    return this.value.filter.groups.values.findIndex((val, i) => {
+    return this.value.groups.values.findIndex((val, i) => {
       const sameObject = except === i;
       const sameKeySize = Object.keys(vMap).length === Object.keys(val).length;
       const fieldsMatch = !Object.keys(vMap).map((field) => {
@@ -99,7 +102,7 @@ export class PostFiltersComponent extends QueryDialogTabComponent<IDataViewQuery
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['analysis'] && !changes['analysis'].isFirstChange()) {
-      this.value.filter.groups.values = [];
+      this.value.groups.values = [];
       this.emitChange(this.value);
     }
   }

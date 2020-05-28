@@ -41,9 +41,6 @@ export class QueryDialogComponent implements OnInit {
     }
   };
 
-
-
-
   constructor(
     public dialogRef: MatDialogRef<QueryDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

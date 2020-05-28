@@ -12,7 +12,7 @@ import { AgeGroupService } from './age-group.service';
 })
 export class SupportDataService {
 
-  readonly PUBLIC = '/public/';
+  readonly PUBLIC = 'public/';
 
   constructor(private http: HttpClient, private ageGroupService: AgeGroupService) { }
 

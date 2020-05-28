@@ -19,8 +19,10 @@
   </ng-template>
 
   <ng-template #toolbar>
-    <div>
-    </div>
+    <button class="btn btn-sm btn-light" style="margin-right: 5px;" (click)="filterReport()">
+      <i class="fa fa-filter" [ngClass]="{ 'filter-active' : filterIsActive$ | async }" ></i>
+      Report Filter
+    </button>
     <div *ngIf="(isViewOnly$ | async) === false">
       <button class="btn btn-sm btn-primary" style="margin-right: 5px;" *ngIf="(isAdmin$ | async)" [disabled]="containsUnsavedChanges$() | async" (click)="publish()" >
         <i class="fa fa-share"></i>

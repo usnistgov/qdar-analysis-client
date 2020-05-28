@@ -15,7 +15,7 @@ import { AnalysisType, Field } from '../model/analysis.values';
 })
 export class ReportTemplateService {
 
-  readonly URL_PREFIX = '/api/template/';
+  readonly URL_PREFIX = 'api/template/';
 
   constructor(private http: HttpClient) { }
 

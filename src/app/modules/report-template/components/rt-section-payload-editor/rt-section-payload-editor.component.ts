@@ -112,6 +112,7 @@ export class RtSectionPayloadEditorComponent extends DamAbstractEditorComponent 
       take(1),
       flatMap((options) => {
         return this.dialog.open(QueryDialogComponent, {
+          disableClose: true,
           minWidth: '70vw',
           maxWidth: '93vw',
           maxHeight: '95vh',

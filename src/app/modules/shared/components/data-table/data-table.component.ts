@@ -181,8 +181,6 @@ export class DataTableComponent implements OnInit {
       }
     } = {};
 
-    console.log(this.labelizer);
-
     this.rows = this.table.values.map((row) => {
       const labelized = {};
       Object.keys(row.values).forEach((field) => {

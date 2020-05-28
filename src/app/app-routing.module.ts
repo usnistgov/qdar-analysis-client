@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent, AuthenticatedGuard, NotAuthenticatedGuard } from 'ngx-dam-framework';
 import { HomeComponent } from './modules/core/components/home/home.component';
 import { ErrorPageComponent } from './modules/core/components/error-page/error-page.component';
+import { RegistrationComponent } from './modules/core/components/registration/registration.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [NotAuthenticatedGuard],
+  },
+  {
+    path: 'register',
+    component: RegistrationComponent,
     canActivate: [NotAuthenticatedGuard],
   },
   {

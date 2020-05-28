@@ -39,6 +39,47 @@ export interface IReportSection extends IDamResource {
   children: IReportSection[];
 }
 
+export interface IFilter {
+  active: boolean;
+}
+
+export interface IComparatorFilter extends IFilter {
+  value: number;
+  comparator: Comparator;
+}
+
+export interface IThresholdFilter extends IFilter {
+  pass: boolean;
+}
+
+export interface IFieldFilter extends IFilter {
+  keep: boolean;
+  values: {
+    [field: string]: IValueContainer,
+  }[];
+}
+
+export interface IReportFieldFilter extends IFilter {
+  keep: boolean;
+  fields: {
+    [field: string]: IValueContainer[]
+  };
+}
+
+export interface IQueryResultFilter {
+  denominator: IComparatorFilter;
+  percentage: IComparatorFilter;
+  threshold: IThresholdFilter;
+  groups: IFieldFilter;
+}
+
+export interface IReportFilter {
+  denominator: IComparatorFilter;
+  percentage: IComparatorFilter;
+  threshold: IThresholdFilter;
+  fields: IReportFieldFilter;
+}
+
 export interface IDataViewQuery {
   type: AnalysisType;
   caption: string;
@@ -46,29 +87,7 @@ export interface IDataViewQuery {
   rows: number;
   selectors: IDataSelector[];
   groupBy: Field[];
-  filter: {
-    denominator: {
-      active: boolean;
-      value: number;
-      comparator: Comparator;
-    };
-    percentage: {
-      active: boolean;
-      value: number;
-      comparator: Comparator;
-    };
-    threshold: {
-      active: boolean;
-      pass: boolean;
-    };
-    groups: {
-      active: boolean;
-      keep: boolean;
-      values: {
-        [field: string]: IValueContainer,
-      }[]
-    };
-  };
+  filter: IQueryResultFilter;
   threshold: {
     custom: {
       active: boolean,
