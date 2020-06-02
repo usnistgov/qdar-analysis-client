@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { IDetectionMap, ICvxCode, IDetectionResource, ICvxResource } from '../model/public.model';
 import { map } from 'rxjs/operators';
 import { EntityType } from '../model/entity.model';
-import { IFieldInputOptions, IFieldInputData } from '../components/field-input/field-input.component';
 import { AgeGroupService } from './age-group.service';
 
 @Injectable({
@@ -25,6 +24,7 @@ export class SupportDataService {
             type: EntityType.DETECTION,
             description: detectionsMap[code].description,
             target: detectionsMap[code].target,
+            active: detectionsMap[code].active,
           };
         });
       }),

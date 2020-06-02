@@ -11,6 +11,20 @@
     <p-tabPanel header="Query" headerStyleClass="valid-tab">
       <app-query-display [query]="data" [labelizer]="labelizer"></app-query-display>
     </p-tabPanel>
+    <p-tabPanel *ngIf="data.issues" header="Query Issues" headerStyleClass="invalid-tab">
+      <table *ngIf="data.issues.inactiveDetections && data.issues.inactiveDetections.length > 0" class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th> Inactive Detections </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data.issues.inactiveDetections">
+            <td>{{ labelizer.for(fields.DETECTION, item) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p-tabPanel>
   </p-tabView>
   <div style="margin : 3.5px;">
     <div *ngIf="!editMode || viewOnly">

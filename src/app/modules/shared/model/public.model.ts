@@ -3,6 +3,7 @@ import { IDamResource } from 'ngx-dam-framework';
 export interface IDetectionDescriptor {
   description: string;
   target: string;
+  active: boolean;
 }
 
 export interface IDetectionMap {

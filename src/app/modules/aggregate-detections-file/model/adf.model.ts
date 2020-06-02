@@ -25,6 +25,10 @@ export interface IADFMetadata extends IDamResource {
   size: string;
   configuration: IConfigurationPayload;
   summary: IADFSummary;
+  version: string;
+  build: string;
+  mqeVersion: string;
+  inactiveDetections: string[];
 }
 
 export interface IADFSummary {

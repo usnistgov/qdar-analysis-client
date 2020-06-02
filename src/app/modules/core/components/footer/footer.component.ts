@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { IServerInfo } from '../../services/app-info.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+
+  @Input()
+  info: IServerInfo;
 
   constructor() { }
 

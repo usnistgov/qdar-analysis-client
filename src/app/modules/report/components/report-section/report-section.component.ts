@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Labelizer } from '../../../shared/services/values.service';
 import { IReportSectionResult } from '../../model/report.model';
+import { Field } from '../../../report-template/model/analysis.values';
 
 @Component({
   selector: 'app-report-section',
@@ -9,6 +10,7 @@ import { IReportSectionResult } from '../../model/report.model';
 })
 export class ReportSectionComponent implements OnInit {
 
+  fields = Field;
 
   @Input()
   set value(v: IReportSectionResult) {

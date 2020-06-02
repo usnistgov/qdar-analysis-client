@@ -4,8 +4,10 @@ import { map } from 'rxjs/operators';
 import {
   Component,
   OnInit,
+  Input,
 } from '@angular/core';
 import { selectRouterURL, selectIsAdmin } from 'ngx-dam-framework';
+import { IServerInfo } from '../../services/app-info.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +15,9 @@ import { selectRouterURL, selectIsAdmin } from 'ngx-dam-framework';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  @Input()
+  info: IServerInfo;
 
   isAdf: Observable<boolean>;
   isAdmin$: Observable<boolean>;

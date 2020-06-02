@@ -216,12 +216,20 @@ export class DataTableComponent implements OnInit {
           label: values[Field.AGE_GROUP][value],
         };
       }),
-      detectionOptions: Object.keys(values[Field.DETECTION] || {}).map((value) => {
-        return {
-          value: values[Field.DETECTION][value],
-          label: values[Field.DETECTION][value],
-        };
-      }),
+      vaccinationDetectionOptions:
+        this.table.type === AnalysisType.VACCINCATIONS_DETECTIONS ? Object.keys(values[Field.DETECTION] || {}).map((value) => {
+          return {
+            value: values[Field.DETECTION][value],
+            label: values[Field.DETECTION][value],
+          };
+        }) : [],
+      patientDetectionOptions:
+        this.table.type === AnalysisType.PATIENTS_DETECTIONS ? Object.keys(values[Field.DETECTION] || {}).map((value) => {
+          return {
+            value: values[Field.DETECTION][value],
+            label: values[Field.DETECTION][value],
+          };
+        }) : [],
       cvxOptions: Object.keys(values[Field.VACCINE_CODE] || {}).map((value) => {
         return {
           value: values[Field.VACCINE_CODE][value],

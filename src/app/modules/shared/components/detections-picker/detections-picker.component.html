@@ -29,6 +29,7 @@
               <th style="width: 100px;" pSortableColumn="name"> Code <p-sortIcon field="id"></p-sortIcon></th>
               <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
               <th pSortableColumn="target">Target <p-sortIcon field="target"></p-sortIcon></th>
+              <th pSortableColumn="active" style="width: 100px;">Active <p-sortIcon field="active"></p-sortIcon></th>
             </tr>
             <tr>
               <th>
@@ -42,6 +43,8 @@
               </th>
               <th>
                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'target', 'contains')" placeholder="Target" class="form-control">
+              </th>
+              <th>
               </th>
             </tr>
         </ng-template>
@@ -59,6 +62,7 @@
             <td>
               {{value.target}}
             </td>
+            <td style="vertical-align: middle;"> <div style="width: 15px; height: 15px; border-radius: 15px;" [ngClass]="{ 'active' : value.active, 'inactive' : !value.active }"></div> </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -85,6 +89,7 @@
           <th> Code </th>
           <th>Description </th>
           <th>Target</th>
+          <th>Active</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-value>
@@ -98,6 +103,7 @@
           <td>
             {{value.target}}
           </td>
+          <td style="vertical-align: middle;"> <div style="width: 15px; height: 15px; border-radius: 15px;" [ngClass]="{ 'active' : value.active, 'inactive' : !value.active }"></div> </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">

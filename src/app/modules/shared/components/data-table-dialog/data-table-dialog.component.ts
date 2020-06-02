@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { IDataTable } from '../../../report/model/report.model';
 import { Labelizer } from '../../services/values.service';
+import { Field } from '../../../report-template/model/analysis.values';
 
 @Component({
   selector: 'app-data-table-dialog',
@@ -11,6 +12,7 @@ import { Labelizer } from '../../services/values.service';
 })
 export class DataTableDialogComponent implements OnInit {
 
+  fields = Field;
   table: IDataTable;
   labelizer: Labelizer;
 

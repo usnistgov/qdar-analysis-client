@@ -26,7 +26,8 @@ export interface IFieldInputData {
 }
 
 export interface IFieldInputOptions {
-  detectionOptions: SelectItem[];
+  vaccinationDetectionOptions: SelectItem[];
+  patientDetectionOptions: SelectItem[];
   cvxOptions: SelectItem[];
   ageGroupOptions: SelectItem[];
   vaccinationTableOptions: SelectItem[];
@@ -53,7 +54,9 @@ export class FieldInputComponent implements ControlValueAccessor, OnInit {
         id: 'detections',
         inputType: 'DROPDOWN',
         options: {
-          default: data.detectionOptions,
+          [AnalysisType.VACCINCATIONS_DETECTIONS]: data.vaccinationDetectionOptions,
+          [AnalysisType.PATIENTS_DETECTIONS]: data.patientDetectionOptions,
+          default: [...data.patientDetectionOptions, ...data.vaccinationDetectionOptions],
         }
       },
       [Field.AGE_GROUP]: {
@@ -78,15 +81,16 @@ export class FieldInputComponent implements ControlValueAccessor, OnInit {
         }
       },
       [Field.TABLE]: {
-        id: 'cvx',
+        id: 'table',
         inputType: 'DROPDOWN',
         options: {
           [AnalysisType.PATIENTS_VOCABULARY]: data.patientTableOptions,
-          [AnalysisType.VACCINCATIONS_VOCABULARY]: data.patientTableOptions,
-          default: [...data.patientTableOptions, ...data.patientTableOptions],
+          [AnalysisType.VACCINCATIONS_VOCABULARY]: data.vaccinationTableOptions,
+          default: [...data.patientTableOptions, ...data.vaccinationTableOptions],
         }
       },
     };
+    console.log(this.fieldInputInfo);
   }
 
   @Input()

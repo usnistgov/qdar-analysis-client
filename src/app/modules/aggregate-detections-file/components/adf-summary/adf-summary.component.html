@@ -27,7 +27,26 @@
 
   <div class="page-content summary-page-content">
     <div class="content">
-
+      <div style="flex-grow: 1; margin-bottom: 15px;">
+        <h5>Command Line Tool Info</h5>
+        <table class="table table-bordered table-sm table-striped">
+          <tbody>
+            <tr>
+              <th>Version</th>
+              <td>{{adfMeta.version ? 'v' + adfMeta.version : 'pre-1.5.0'}}</td>
+            </tr>
+            <tr *ngIf="adfMeta.build">
+              <th>Build</th>
+              <td>{{adfMeta.build}}</td>
+            </tr>
+            <tr *ngIf="adfMeta.mqeVersion">
+              <th>Mqe Version</th>
+              <td>{{adfMeta.mqeVersion}}</td>
+            </tr>
+          </tbody>
+          </table>
+      </div>
+      <hr>
       <div style="display: flex; width: 100%; justify-content: stretch;">
         <div style="flex-grow: 1; margin-right: 5px;">
           <h5>General Counts</h5>
@@ -139,8 +158,67 @@
       </p-table>
       <hr>
       <h5 style="margin-top: 10px;">Supported Detections</h5>
+      <ng-container *ngIf="unrecognized$ | async as unrecognized">
+        <div class="alert alert-warning" role="alert" *ngIf="unrecognized && unrecognized.length > 0">
+          Unrecognized MQE Detection codes {{ unrecognized | json }}
+        </div>
+      </ng-container>
+
       <p-table #dt
-      [value]="detections$ | async"
+      [value]="supported$ | async"
+      dataKey="id"
+      [rowHover]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50, 100]"
+      [paginatorDropdownAppendTo]="'body'"
+      [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [filterDelay]="0"
+      [globalFilterFields]="['id','description','target']">
+        <ng-template pTemplate="caption">
+          <div class="input-group" style="margin-left: 5px; min-width: 300px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-search"></i></span>
+            </div>
+            <input class="form-control" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 100px;" pSortableColumn="name"> Code <p-sortIcon field="id"></p-sortIcon></th>
+              <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+              <th pSortableColumn="target">Target <p-sortIcon field="target"></p-sortIcon></th>
+            </tr>
+            <tr>
+              <th>
+                  <input type="text" (input)="dt.filter($event.target.value, 'id', 'contains')" placeholder="Code" class="form-control">
+              </th>
+              <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')" placeholder="Description" class="form-control">
+              </th>
+              <th>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'target', 'contains')" placeholder="Target" class="form-control">
+              </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-value>
+          <tr>
+            <td>
+                {{value.id}}
+            </td>
+            <td>
+              {{value.description}}
+            </td>
+            <td>
+              {{value.target}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <h5 style="margin-top: 10px;">Inactive Detections</h5>
+      <p-table #dt
+      [value]="inactive$ | async"
       dataKey="id"
       [rowHover]="true"
       [rows]="10"

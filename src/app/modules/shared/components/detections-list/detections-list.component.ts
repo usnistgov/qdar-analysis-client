@@ -26,9 +26,12 @@ export class DetectionsListComponent implements OnInit {
     });
   }
 
+  unrecognizedCodes: string[];
+
   @Input()
   set value(list: string[]) {
     this.pValue = list;
+    this.unrecognizedCodes = this.pValue.filter((code) => !this.detectionsMap[code]);
     this.filter('');
   }
 
@@ -58,12 +61,14 @@ export class DetectionsListComponent implements OnInit {
   filter(text) {
     this.filtered = this.value.filter((id) => {
       const d = this.detectionsMap[id];
-      return d.id.includes(text) || d.target.includes(text) || d.description.includes(text);
+      return d && (d.id.includes(text) || d.target.includes(text) || d.description.includes(text));
     });
   }
 
   pick() {
     this.dialog.open(DetectionsPickerComponent, {
+      minWidth: '95vw',
+      maxHeight: '95vh',
       data: {
         detections: this.detectionsList,
         selection: this.value,

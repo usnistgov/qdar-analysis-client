@@ -40,13 +40,17 @@ export class ValuesService {
     };
 
     const processOptions = (items: SelectItem[], field: Field) => {
-      map[field] = {};
+      if (!map[field]) {
+        map[field] = {};
+      }
+
       items.forEach((option) => {
         map[field][option.value] = option.label;
       });
     };
 
-    processOptions(options.detectionOptions, Field.DETECTION);
+    processOptions(options.vaccinationDetectionOptions, Field.DETECTION);
+    processOptions(options.patientDetectionOptions, Field.DETECTION);
     processOptions(options.cvxOptions, Field.VACCINE_CODE);
     processOptions(options.ageGroupOptions, Field.AGE_GROUP);
     processOptions(options.eventOptions, Field.EVENT);
@@ -62,13 +66,16 @@ export class ValuesService {
       };
     };
 
+    const detectionTransform = (elm) => {
+      return {
+        label: elm.id + ' - ' + elm.description,
+        value: elm.id,
+      };
+    };
+
     return {
-      detectionOptions: data.detections.map((elm) => {
-        return {
-          label: elm.id + ' - ' + elm.description,
-          value: elm.id,
-        };
-      }),
+      vaccinationDetectionOptions: data.detections.filter(d => d.target === 'VACCINATION').map(detectionTransform),
+      patientDetectionOptions: data.detections.filter(d => d.target !== 'VACCINATION').map(detectionTransform),
       cvxOptions: data.cvxs.map((elm) => {
         return {
           label: elm.id + ' - ' + elm.name,
@@ -87,7 +94,7 @@ export class ValuesService {
           value: data.ageGroups.length + 'g',
         }
       ],
-      vaccinationTableOptions: data.tables.patientTables.map(standardTransform),
+      vaccinationTableOptions: data.tables.vaccinationTables.map(standardTransform),
       patientTableOptions: data.tables.patientTables.map(standardTransform),
       eventOptions: [{
         label: 'Administered',

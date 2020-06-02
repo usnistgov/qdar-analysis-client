@@ -36,6 +36,9 @@ export interface IReportSectionResult extends IReportSection {
 export interface IDataTable extends IDataViewQuery {
   headers: Field[];
   values: IDataTableRow[];
+  issues: {
+    inactiveDetections: string[];
+  };
   thresholdViolation: boolean;
 }
 
