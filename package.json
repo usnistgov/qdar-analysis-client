@@ -35,7 +35,7 @@
     "font-awesome": "^4.7.0",
     "guid-typescript": "^1.0.9",
     "lodash": "^4.17.15",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "ng-block-ui": "2.1.8",
     "ngx-contextmenu": "^5.4.0",
     "ngx-dam-framework": "file:../dam-framework/dist/ngx-dam-framework",
